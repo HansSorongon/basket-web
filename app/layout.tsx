@@ -1,6 +1,8 @@
+import { Suspense } from 'react'
 import React from "react";
-import { MantineProvider, ColorSchemeScript, Flex, Title } from "@mantine/core";
+import { MantineProvider, Box, Container, Loader, ColorSchemeScript, Flex, Title } from "@mantine/core";
 import { theme } from "../theme";
+import NextTopLoader from 'nextjs-toploader'
 
 import '@mantine/core/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
@@ -28,7 +30,12 @@ export default function RootLayout({ children }: { children: any }) {
         <MantineProvider theme={theme}>
           <Flex>
             <Navbar />
-            {children}
+            <Container p='xl' w='83vw' fluid>
+              <Suspense fallback={<Loader />}>
+                <NextTopLoader />
+                {children}
+              </Suspense>
+            </Container>
           </Flex>
         </MantineProvider>
       </body>

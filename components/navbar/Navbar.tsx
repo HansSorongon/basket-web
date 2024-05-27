@@ -16,11 +16,15 @@ import {
 } from '@tabler/icons-react';
 import { Logo } from './logo'
 import classes from './navbar.module.css';
+import { usePathname } from 'next/navigation'
 
 import NavbarItem from './NavbarItem'
 
 export default function Navbar() {
-  const [active, setActive] = useState('View');
+  const [active, setActive] = useState('');
+
+  const path = usePathname();
+  console.log(path)
 
   return (
     <nav className={classes.navbar}>
@@ -39,14 +43,14 @@ export default function Navbar() {
 
         <Title order={6} className={classes.navbarSectionHeader}>ASSETS</Title>
 
-        <NavbarItem label='View' icon={<IconTable />} active={active == 'View' || false} link='/' setActive={setActive} />
-        <NavbarItem label='Add/Import' icon={<IconCirclePlus />} active={active == 'Add/Import' || false} link='/add' setActive={setActive} />
-        <NavbarItem label='Bundle' icon={<IconPackages />} active={active == 'Bundle' || false} link='/' setActive={setActive} />
-        <NavbarItem label='Accountability Form' icon={<IconForms />} active={active == 'Accountability Form' || false} link='/' setActive={setActive} />
+        <NavbarItem label='View' icon={<IconTable />} active={path == '/' || false} link='/' setActive={setActive} />
+        <NavbarItem label='Add/Import' icon={<IconCirclePlus />} active={path == '/add' || false} link='/add' setActive={setActive} />
+        <NavbarItem label='Bundle' icon={<IconPackages />} active={path == '/bundle' || false} link='/bundle' setActive={setActive} />
+        <NavbarItem label='Accountability Form' icon={<IconForms />} active={path == '/accountability' || false} link='/accountability' setActive={setActive} />
 
         <Title order={6} className={classes.navbarSectionHeader}>MANAGE</Title>
-        <NavbarItem label='Data Maintenance' icon={<IconServerCog />} active={active == 'Data Maintenance' || false} link='/' setActive={setActive} />
-        <NavbarItem label='Masterlist' icon={<IconTableExport />} active={active == 'Masterlist' || false} link='/' setActive={setActive} />
+        <NavbarItem label='Data Maintenance' icon={<IconServerCog />} active={path == '/data_maintenance' || false} link='/data_maintenance' setActive={setActive} />
+        <NavbarItem label='Masterlist' icon={<IconTableExport />} active={path == '/masterlist' || false} link='/masterlist' setActive={setActive} />
 
       </div>
 
