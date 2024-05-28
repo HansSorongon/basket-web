@@ -1,9 +1,12 @@
 'use client';
 
+import { Suspense } from 'react'
 import { useState, useEffect } from 'react'
 import { Center, ActionIcon } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
 import { IconClick, IconEdit } from '@tabler/icons-react'
+
+import { getAssets } from '../../actions/actions'
 
 const PAGE_SIZE: number = 15
 
@@ -54,8 +57,9 @@ export default function AssetTable() {
 
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState(arrSampleData.slice(0, PAGE_SIZE));
-
   const [selectedRecords, setSelectedRecords] = useState<Asset[]>([]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
@@ -63,46 +67,60 @@ export default function AssetTable() {
     setRecords(arrSampleData.slice(from, to));
   }, [page]);
 
+  useEffect(() => {
+
+    let data = getAssets().then(() => {
+      console.log("Finished getting data.")
+    });
+  }, [])
+
+  useEffect(() => {
+    const data = getAssets();
+    console.log(data)
+  }, [])
+
   return (
-    <DataTable
-      withTableBorder
-      borderRadius="md"
-      withColumnBorders
-      striped
-      highlightOnHover
-      records={records}
-      // define columns
-      columns={[
-        {
-          accessor: 'id',
-          title: 'Asset No.',
-          width: 90,
-        },
-        { accessor: 'assetType', title: 'Asset Type' },
-        { accessor: 'model', title: 'Model' },
-        { accessor: 'serialNo', title: 'Serial No.' },
-        { accessor: 'bundleNo', title: 'Bundle No.' },
-        { accessor: 'status', title: 'Status' },
-        { accessor: 'statusUpdated', title: 'Status Updated' },
-        { accessor: 'user', title: 'User' },
-        { accessor: 'location', title: 'Location' },
-        { accessor: 'locationRemarks', title: 'Location Remarks' },
-        { accessor: 'lastInventory', title: 'Last Inventory' },
-        {
-          accessor: 'actions',
-          title: 'Update',
-          width: '0%',
-          render: renderActions,
-        }
-      ]}
-      // execute this callback when a row is clicked
-      onRowClick={() => { console.log(selectedRecords) }}
-      totalRecords={arrSampleData.length}
-      recordsPerPage={PAGE_SIZE}
-      page={page}
-      onPageChange={(p: number) => setPage(p)}
-      selectedRecords={selectedRecords}
-      onSelectedRecordsChange={setSelectedRecords}
-    />
+    <>
+      <DataTable
+        withTableBorder
+        borderRadius="md"
+        withColumnBorders
+        striped
+        highlightOnHover
+        records={records}
+        // define columns
+        columns={[
+          {
+            accessor: 'id',
+            title: 'Asset No.',
+            width: 90,
+          },
+          { accessor: 'assetType', title: 'Asset Type' },
+          { accessor: 'model', title: 'Model' },
+          { accessor: 'serialNo', title: 'Serial No.' },
+          { accessor: 'bundleNo', title: 'Bundle No.' },
+          { accessor: 'status', title: 'Status' },
+          { accessor: 'statusUpdated', title: 'Status Updated' },
+          { accessor: 'user', title: 'User' },
+          { accessor: 'location', title: 'Location' },
+          { accessor: 'locationRemarks', title: 'Location Remarks' },
+          { accessor: 'lastInventory', title: 'Last Inventory' },
+          {
+            accessor: 'actions',
+            title: 'Update',
+            width: '0%',
+            render: renderActions,
+          }
+        ]}
+        // execute this callback when a row is clicked
+        onRowClick={() => { console.log(selectedRecords) }}
+        totalRecords={arrSampleData.length}
+        recordsPerPage={PAGE_SIZE}
+        page={page}
+        onPageChange={(p: number) => setPage(p)}
+        selectedRecords={selectedRecords}
+        onSelectedRecordsChange={setSelectedRecords}
+      />
+    </>
   );
 }

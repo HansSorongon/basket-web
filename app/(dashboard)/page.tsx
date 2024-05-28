@@ -4,6 +4,8 @@ import FilterButtons from '../../components/filter/FilterButtons';
 import OptionButtons from '../../components/options/OptionButtons'
 import AssetTable from '../../components/assetTable/AssetTable'
 
+import { getAssets } from '../../actions/actions'
+
 export default function Bundle() {
   return (
     <Flex direction='column'>

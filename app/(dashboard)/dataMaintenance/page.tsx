@@ -4,7 +4,7 @@ export default function DataMaintenance() {
   return (
     <Flex direction='column'>
 
-      < Title lineClamp={1}>Masterlist</Title >
+      < Title lineClamp={1}>Data Maintenance</Title >
       <Divider my='md' />
 
     </Flex >

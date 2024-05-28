@@ -4,6 +4,7 @@ import { MantineProvider, Box, Container, Loader, ColorSchemeScript, Flex, Title
 import { theme } from "../theme";
 import NextTopLoader from 'nextjs-toploader'
 
+import '@mantine/dates/styles.css';
 import '@mantine/core/styles.layer.css';
 import 'mantine-datatable/styles.layer.css';
 import './layout.css'

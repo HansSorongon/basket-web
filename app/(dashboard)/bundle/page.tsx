@@ -1,7 +1,13 @@
-
+import { Flex, Title, Divider } from '@mantine/core'
 
 export default function Bundle() {
   return (
-    <h1>Placeholder</h1>
+    <Flex direction='column'>
+
+      < Title lineClamp={1}>Bundle</Title >
+      <Divider my='md' />
+
+    </Flex >
+
   );
 }

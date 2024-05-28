@@ -24,7 +24,6 @@ export default function Navbar() {
   const [active, setActive] = useState('');
 
   const path = usePathname();
-  console.log(path)
 
   return (
     <nav className={classes.navbar}>
@@ -49,7 +48,7 @@ export default function Navbar() {
         <NavbarItem label='Accountability Form' icon={<IconForms />} active={path == '/accountability' || false} link='/accountability' setActive={setActive} />
 
         <Title order={6} className={classes.navbarSectionHeader}>MANAGE</Title>
-        <NavbarItem label='Data Maintenance' icon={<IconServerCog />} active={path == '/data_maintenance' || false} link='/data_maintenance' setActive={setActive} />
+        <NavbarItem label='Data Maintenance' icon={<IconServerCog />} active={path == '/dataMaintenance' || false} link='/dataMaintenance' setActive={setActive} />
         <NavbarItem label='Masterlist' icon={<IconTableExport />} active={path == '/masterlist' || false} link='/masterlist' setActive={setActive} />
 
       </div>
