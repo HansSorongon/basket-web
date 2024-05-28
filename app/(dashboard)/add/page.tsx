@@ -15,13 +15,13 @@ import {
 } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
+import { notifications } from '@mantine/notifications'
 import { IconCalendar } from '@tabler/icons-react'
-
 import { IconTableExport, IconCirclePlus } from '@tabler/icons-react'
 
 import classes from './add.module.css'
-
 import { addAsset } from '../../../actions/actions'
+import { Asset } from '../../../common/types'
 
 const addSectionTheme = createTheme({
   components: {
@@ -33,8 +33,6 @@ const addSectionTheme = createTheme({
   },
 });
 
-
-
 export default function Add() {
 
   const form = useForm({
@@ -42,8 +40,30 @@ export default function Add() {
     validate: {}
   });
 
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values);
+  async function handleSubmit(values: typeof form.values) {
+
+    notifications.show({
+      id: 'loading',
+      title: 'Add Asset',
+      message: 'Adding your asset...',
+      autoClose: 3000,
+      loading: true
+    })
+
+    values.warrantyDur = +values.warrantyDur
+    values.employeeID = values.employeeID ? +values.employeeID : null;
+
+    await addAsset(values as Asset);
+
+    notifications.clean();
+
+    notifications.show({
+      title: 'Add Asset',
+      color: 'green',
+      message: 'Successfully added asset!',
+      autoClose: 2000,
+    })
+
   };
 
   function handleError() {
@@ -64,8 +84,8 @@ export default function Add() {
               <Title order={6} className={classes.sectionHeader} m={0}>ASSET INFORMATION</Title>
 
               <TextInput size='sm' label='Asset Number' mb='sm'
-                key={form.key('assetNumber')}
-                {...form.getInputProps('assetNumber')}>
+                key={form.key('assetNum')}
+                {...form.getInputProps('assetNum')}>
               </TextInput>
               <Select size='sm' label='Asset Type' mb='sm' data={['Keyboard', 'Mouse', 'Monitor']}
                 key={form.key('assetType')}
@@ -130,21 +150,21 @@ export default function Add() {
                 key={form.key('pezaZone')}
                 {...form.getInputProps('pezaZone')}>
               </TextInput>
-              <TextInput size='sm' label='Market Circle' mb='sm'
+              <Select size='sm' label='Market Circle' mb='sm' data={['Tech', 'Communication', 'Miscellaneous']}
                 key={form.key('mktCircle')}
                 {...form.getInputProps('mktCircle')}>
-              </TextInput>
+              </Select>
             </Flex>
 
             <Divider orientation='vertical' mr='md' />
 
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>MISCELLANEOUS</Title>
-              <Select size='sm' label='Classification' mb='sm'
+              <Select size='sm' label='Classification' mb='sm' data={['Input', 'Output', 'Storage', 'Networking']}
                 key={form.key('class')}
                 {...form.getInputProps('class')}>
               </Select>
-              <Select size='sm' label='Status' mb='sm'
+              <Select size='sm' label='Status' mb='sm' data={['Active', 'Inactive']}
                 key={form.key('status')}
                 {...form.getInputProps('status')}>
               </Select>
@@ -156,7 +176,7 @@ export default function Add() {
                 key={form.key('recInvDate')}
                 {...form.getInputProps('recInvDate')}>
               </DateInput>
-              <Select size='sm' label='Location' mb='sm'
+              <Select size='sm' label='Location' mb='sm' data={['Shelf', 'Table', 'Cabinet']}
                 key={form.key('location')}
                 {...form.getInputProps('location')}>
               </Select>
