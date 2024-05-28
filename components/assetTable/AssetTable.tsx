@@ -30,6 +30,7 @@ export default function AssetTable(props: { importedRecords: Array<Asset> }) {
   useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
+
     setRecords(importedRecords.slice(from, to));
   }, [page]);
 
@@ -78,7 +79,7 @@ export default function AssetTable(props: { importedRecords: Array<Asset> }) {
         ]}
         // execute this callback when a row is clicked
         onRowClick={() => { console.log(selectedRecords) }}
-        totalRecords={records.length}
+        totalRecords={importedRecords.length}
         noRecordsText={"The basket is empty!"}
         recordsPerPage={PAGE_SIZE}
         page={page}
