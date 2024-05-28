@@ -1,27 +1,26 @@
 'use client';
 
-import { Suspense } from 'react'
+import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
 import { Center, ActionIcon } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
-import { IconClick, IconEdit } from '@tabler/icons-react'
-
-import { getAssets } from '../../actions/actions'
+import { IconEdit } from '@tabler/icons-react'
 
 const PAGE_SIZE: number = 15
 
+// TODO: fix this to be the same as the schema
 interface Asset {
-  id: number;
-  assetType: String;
-  model: String;
-  serialNo: String;
-  bundleNo: number;
-  status: String;
-  statusUpdated: Date;
-  user: String;
-  location: String;
-  locationRemarks: String;
-  lastInventory: String;
+  ID: number;
+  Type: String;
+  AssetModel: String;
+  SerialNum: String;
+  BundleNum: number;
+  UpdatedAt: Date;
+  RecInvDate: Date;
+  Status: String;
+  EmployeeID: String;
+  Location: String;
+  LocRemarks: String;
 }
 
 const renderActions = () => (
@@ -53,31 +52,22 @@ for (let i = 1; i <= 50; i++) {
   arrSampleData.push(JSON.parse(JSON.stringify(sampleData)));
 }
 
-export default function AssetTable() {
+// TODO: change the any type of importedRecords to the interface once finished with the table
+export default function AssetTable(props: { importedRecords: Array<any> }) {
 
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState(arrSampleData.slice(0, PAGE_SIZE));
   const [selectedRecords, setSelectedRecords] = useState<Asset[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const { importedRecords } = props;
 
   useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
-    setRecords(arrSampleData.slice(from, to));
+    setRecords(importedRecords.slice(from, to));
   }, [page]);
 
-  useEffect(() => {
-
-    let data = getAssets().then(() => {
-      console.log("Finished getting data.")
-    });
-  }, [])
-
-  useEffect(() => {
-    const data = getAssets();
-    console.log(data)
-  }, [])
+  console.log(importedRecords[0])
 
   return (
     <>
@@ -91,20 +81,29 @@ export default function AssetTable() {
         // define columns
         columns={[
           {
-            accessor: 'id',
+            accessor: 'ID',
             title: 'Asset No.',
             width: 90,
           },
-          { accessor: 'assetType', title: 'Asset Type' },
-          { accessor: 'model', title: 'Model' },
-          { accessor: 'serialNo', title: 'Serial No.' },
-          { accessor: 'bundleNo', title: 'Bundle No.' },
-          { accessor: 'status', title: 'Status' },
-          { accessor: 'statusUpdated', title: 'Status Updated' },
-          { accessor: 'user', title: 'User' },
-          { accessor: 'location', title: 'Location' },
-          { accessor: 'locationRemarks', title: 'Location Remarks' },
-          { accessor: 'lastInventory', title: 'Last Inventory' },
+          { accessor: 'Type', title: 'Asset Type' },
+          { accessor: 'AssetModel', title: 'Model' },
+          { accessor: 'SerialNum', title: 'Serial No.' },
+          { accessor: 'BundleNum', title: 'Bundle No.' },
+          { accessor: 'Status', title: 'Status' },
+          {
+            accessor: 'UpdatedAt',
+            title: 'Status Updated',
+            render: ({ UpdatedAt }) => dayjs(UpdatedAt).format('MMM DD, YYYY'),
+          },
+          { accessor: 'EmployeeID', title: 'User' },
+          { accessor: 'Location', title: 'Location' },
+          { accessor: 'LocRemarks', title: 'Location Remarks' },
+          {
+            accessor: 'RecInvDate',
+            title: 'Last Inventory',
+            render: ({ RecInvDate }) => dayjs(RecInvDate).format('MMM DD, YYYY'),
+          },
+
           {
             accessor: 'actions',
             title: 'Update',

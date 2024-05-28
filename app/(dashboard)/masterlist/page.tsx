@@ -1,6 +1,6 @@
 import { Flex, Title, Divider } from '@mantine/core'
 
-export default function DataMaintenance() {
+export default function Masterlist() {
   return (
     <Flex direction='column'>
 

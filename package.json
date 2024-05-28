@@ -21,7 +21,6 @@
     "@mantine/spotlight": "^7.10.0",
     "@tabler/icons-react": "^3.5.0",
     "@tanstack/react-query": "^5.39.0",
-    "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
     "mantine-contextmenu": "^7.9.1",

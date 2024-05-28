@@ -30,7 +30,7 @@ const addSectionTheme = createTheme({
   },
 });
 
-export default function AccountabilityForm() {
+export default function Add() {
   return (
     <Flex direction='column'>
 
@@ -70,14 +70,13 @@ export default function AccountabilityForm() {
 
           <Flex direction='column' mr='md' w='23%'>
             <Title order={6} className={classes.sectionHeader} m={0}>MISCELLANEOUS</Title>
-            <TextInput size='sm' label='Supplier' mb='sm'></TextInput>
-            <DateInput size='sm' label='Acquistion Date' mb='sm' leftSection={<IconCalendar size='20px' />} ></DateInput>
-            <TextInput size='sm' label='Warranty' mb='sm'></TextInput>
-            <DateInput size='sm' label='Warranty End Date' mb='sm' leftSection={<IconCalendar size='20px' />} ></DateInput>
-            <Select size='sm' label='Currency' mb='sm'></Select>
-            <TextInput size='sm' label='Unit Cost' placeholder='(ex. VAT)' mb='sm'></TextInput>
-            <TextInput size='sm' label='Peza Zone' mb='sm'></TextInput>
-            <TextInput size='sm' label='Market Circle' mb='sm'></TextInput>
+            <Select size='sm' label='Classification' mb='sm'></Select>
+            <Select size='sm' label='Status' mb='sm'></Select>
+            <DateInput size='sm' label='Status Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />} ></DateInput>
+            <DateInput size='sm' label='Recent Inventory Date' mb='sm' leftSection={<IconCalendar size='20px' />} ></DateInput>
+            <Select size='sm' label='Location' mb='sm'></Select>
+            <DateInput size='sm' label='Location Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />} ></DateInput>
+            <TextInput size='sm' label='Responsible Person' mb='sm'></TextInput>
           </Flex>
 
           <Flex direction='column' mr='md' w='23%'>
