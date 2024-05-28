@@ -31,7 +31,6 @@ export default function Navbar() {
         <Box className={classes.logoSection}>
           <Group className={classes.header}>
             <Logo />
-            <Title order={1}>Basket</Title>
           </Group>
           <Group className={classes.companyTag}>
             <Image radius='xl' h={20} w={20} src='pointwestLogo.png' />

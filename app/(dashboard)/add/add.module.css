@@ -8,3 +8,13 @@
   margin-bottom: var(--mantine-spacing-xs);
   margin-left: var(--mantine-spacing-xs);
 }
+
+
+.mantine-Textarea-input {
+  background-color: red;
+}
+
+.areaInput {
+  height: 14vh;
+}
+
