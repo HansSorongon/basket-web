@@ -6,22 +6,9 @@ import { Center, ActionIcon } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
 import { IconEdit } from '@tabler/icons-react'
 
-const PAGE_SIZE: number = 15
+import { Asset } from '../../common/types';
 
-// TODO: fix this to be the same as the schema
-interface Asset {
-  ID: number;
-  Type: String;
-  AssetModel: String;
-  SerialNum: String;
-  BundleNum: number;
-  UpdatedAt: Date;
-  RecInvDate: Date;
-  Status: String;
-  EmployeeID: String;
-  Location: String;
-  LocRemarks: String;
-}
+const PAGE_SIZE: number = 15
 
 const renderActions = () => (
   <Center>
@@ -31,43 +18,20 @@ const renderActions = () => (
   </Center>
 )
 
-const sampleData = {
-  id: 1,
-  assetType: 'Mouse',
-  model: 'Logitech G304',
-  serialNo: 'AB1294',
-  bundleNo: 34,
-  status: 'In Use',
-  statusUpdated: (new Date()).toLocaleDateString(),
-  user: 'Jan Anthony Murillo',
-  location: 'Main Office',
-  locationRemarks: 'On the top shelf.',
-  lastInventory: (new Date()).toLocaleDateString()
-}
-
-const arrSampleData: Asset[] = []
-
-for (let i = 1; i <= 50; i++) {
-  sampleData.id = i;
-  arrSampleData.push(JSON.parse(JSON.stringify(sampleData)));
-}
-
-// TODO: change the any type of importedRecords to the interface once finished with the table
-export default function AssetTable(props: { importedRecords: Array<any> }) {
-
-  const [page, setPage] = useState(1);
-  const [records, setRecords] = useState(arrSampleData.slice(0, PAGE_SIZE));
-  const [selectedRecords, setSelectedRecords] = useState<Asset[]>([]);
+export default function AssetTable(props: { importedRecords: Array<Asset> }) {
 
   const { importedRecords } = props;
+
+  const [page, setPage] = useState(1);
+  const [records, setRecords] = useState(importedRecords.slice(0, PAGE_SIZE));
+
+  const [selectedRecords, setSelectedRecords] = useState<Array<Asset>>([]);
 
   useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
     setRecords(importedRecords.slice(from, to));
   }, [page]);
-
-  console.log(importedRecords[0])
 
   return (
     <>
@@ -81,27 +45,28 @@ export default function AssetTable(props: { importedRecords: Array<any> }) {
         // define columns
         columns={[
           {
-            accessor: 'ID',
+            accessor: 'id',
             title: 'Asset No.',
             width: 90,
           },
-          { accessor: 'Type', title: 'Asset Type' },
-          { accessor: 'AssetModel', title: 'Model' },
-          { accessor: 'SerialNum', title: 'Serial No.' },
-          { accessor: 'BundleNum', title: 'Bundle No.' },
-          { accessor: 'Status', title: 'Status' },
+          { accessor: 'assetType', title: 'Asset Type' },
+          { accessor: 'assetModel', title: 'Model' },
+          { accessor: 'serialNum', title: 'Serial No.' },
+          { accessor: 'bundleNum', title: 'Bundle No.' },
+          { accessor: 'status', title: 'Status' },
           {
-            accessor: 'UpdatedAt',
+            accessor: 'statEffDate',
             title: 'Status Updated',
-            render: ({ UpdatedAt }) => dayjs(UpdatedAt).format('MMM DD, YYYY'),
+            render: ({ statEffDate }) => dayjs(statEffDate).format('MMM DD, YYYY'),
           },
-          { accessor: 'EmployeeID', title: 'User' },
-          { accessor: 'Location', title: 'Location' },
-          { accessor: 'LocRemarks', title: 'Location Remarks' },
+          // employee ID
+          { accessor: 'employeeID', title: 'User' },
+          { accessor: 'location', title: 'Location' },
+          { accessor: 'locRemarks', title: 'Location Remarks' },
           {
-            accessor: 'RecInvDate',
+            accessor: 'recInvDate',
             title: 'Last Inventory',
-            render: ({ RecInvDate }) => dayjs(RecInvDate).format('MMM DD, YYYY'),
+            render: ({ recInvDate }) => dayjs(recInvDate).format('MMM DD, YYYY'),
           },
 
           {
@@ -113,7 +78,8 @@ export default function AssetTable(props: { importedRecords: Array<any> }) {
         ]}
         // execute this callback when a row is clicked
         onRowClick={() => { console.log(selectedRecords) }}
-        totalRecords={arrSampleData.length}
+        totalRecords={records.length}
+        noRecordsText={"The basket is empty!"}
         recordsPerPage={PAGE_SIZE}
         page={page}
         onPageChange={(p: number) => setPage(p)}
