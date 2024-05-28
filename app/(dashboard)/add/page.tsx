@@ -5,7 +5,6 @@ import {
   Title,
   Button,
   Divider,
-  Text,
   TextInput,
   Input,
   MantineProvider,
