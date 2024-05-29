@@ -52,16 +52,25 @@ export default function Add() {
     values.warrantyDur = +values.warrantyDur
     values.employeeID = values.employeeID ? +values.employeeID : null;
 
-    await addAsset(values as Asset);
+    let status = await addAsset(values as Asset);
 
     notifications.clean();
 
-    notifications.show({
-      title: 'Add Asset',
-      color: 'green',
-      message: 'Successfully added asset!',
-      autoClose: 2000,
-    })
+    if (status) {
+      notifications.show({
+        title: 'Add Asset',
+        color: 'green',
+        message: 'Successfully added asset!',
+        autoClose: 2000,
+      })
+    } else {
+      notifications.show({
+        title: 'Add Asset',
+        color: 'red',
+        message: 'Failed to add asset!',
+        autoClose: 2000,
+      })
+    }
 
   };
 

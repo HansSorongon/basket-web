@@ -7,7 +7,9 @@ import AssetTable from '../../components/assetTable/AssetTable';
 
 import { Asset } from '../../common/types';
 
-async function FilledAssetsTable() {
+import DataTableContainer from '../../components/DataTableContainer';
+
+async function FilledDataTableContainer() {
   'use server'
 
   const res = await fetch('https://basket-api.onrender.com/api/v1/assets', {
@@ -20,7 +22,7 @@ async function FilledAssetsTable() {
 
   let data: Array<Asset> = await res.json();
 
-  return <AssetTable importedRecords={data} />
+  return <DataTableContainer importedRecords={data} />;
 }
 
 export default function Bundle() {
@@ -31,17 +33,7 @@ export default function Bundle() {
       <Divider my='md' />
 
       <FilterButtons />
-      <OptionButtons />
-
-      <Box h='65vh'>
-        <Suspense fallback={
-          <Center>
-            <Loader type='dots' />
-          </Center>
-        }>
-          <FilledAssetsTable />
-        </Suspense>
-      </Box>
+      <FilledDataTableContainer />
 
     </Flex >
   );

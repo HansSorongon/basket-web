@@ -10,6 +10,12 @@ import { Asset } from '../../common/types';
 
 const PAGE_SIZE: number = 15
 
+interface AssetTableProps {
+  importedRecords: Asset[],
+  selectedRecords: Asset[],
+  setSelectedRecords: any,
+}
+
 const renderActions = () => (
   <Center>
     <ActionIcon variant='light' color='var(--mantine-color-green-8)'>
@@ -18,14 +24,12 @@ const renderActions = () => (
   </Center>
 )
 
-export default function AssetTable(props: { importedRecords: Array<Asset> }) {
+export default function AssetTable(props: AssetTableProps) {
 
-  const { importedRecords } = props;
+  const { importedRecords, selectedRecords, setSelectedRecords } = props;
 
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState(importedRecords.slice(0, PAGE_SIZE));
-
-  const [selectedRecords, setSelectedRecords] = useState<Array<Asset>>([]);
 
   useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
