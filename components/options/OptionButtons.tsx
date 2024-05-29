@@ -10,7 +10,18 @@ import {
 
 import classes from './optionButtons.module.css'
 
-export default function FilterButtons() {
+import { deleteAssets } from '../../actions/actions'
+import { Asset } from '../../common/types';
+
+interface OptionButtonsProps {
+  selectedRecords: Asset[]
+}
+
+function handleDelete(assets: Asset[]) {
+  deleteAssets(assets);
+}
+
+export default function OptionsButtonsProps({ selectedRecords }: OptionButtonsProps) {
   return (
     <Flex justify='space-between' w='100%' mb='md'>
       <Group>
@@ -22,7 +33,7 @@ export default function FilterButtons() {
       <Group>
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconLayoutColumns size='20px' />}>Columns</Button>
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconUserPlus size='20px' />}>Assign</Button>
-        <Button variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />}>Delete</Button>
+        <Button variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />} onClick={() => handleDelete(selectedRecords)}>Delete</Button>
       </Group>
     </Flex>
   );

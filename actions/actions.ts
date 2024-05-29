@@ -15,3 +15,17 @@ export async function addAsset(value: Asset) {
 
 }
 
+export async function deleteAssets(assets: Asset[]) {
+
+  console.log(assets)
+
+  // const res = await fetch('https://basket-api.onrender.com/api/v1/assets', {
+  //   method: 'POST',
+  //   body: JSON.stringify(assets)
+  // });
+  //
+  // if (res.ok) {
+  //   console.log(res);
+  // }
+
+}
