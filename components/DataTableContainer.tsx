@@ -1,5 +1,4 @@
-
-import { Box } from '@mantine/core'
+'use client'
 
 import AssetTable from './assetTable/AssetTable';
 import OptionButtons from './options/OptionButtons'
@@ -12,10 +11,10 @@ interface DataTableContainerProps {
 export default function DataTableContainer({ importedRecords }: DataTableContainerProps) {
 
   return (
-    <Box>
+    <>
       <OptionButtons />
       <AssetTable importedRecords={importedRecords} />
-    </Box>
+    </>
   )
 
 }
