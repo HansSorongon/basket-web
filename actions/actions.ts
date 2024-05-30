@@ -68,7 +68,7 @@ export async function deleteAssets(assets: Asset[]) {
     method: 'DELETE',
   });
 
-  console.log(res)
+  console.log(res);
 
 }
 

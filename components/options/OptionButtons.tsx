@@ -1,3 +1,4 @@
+'use client'
 import { Group, Button, Flex } from '@mantine/core'
 import {
   IconCategory,
@@ -19,9 +20,12 @@ interface OptionButtonsProps {
 
 function handleDelete(assets: Asset[]) {
   deleteAssets(assets);
+
+  window.location.reload()
 }
 
 export default function OptionsButtonsProps({ selectedRecords }: OptionButtonsProps) {
+
   return (
     <Flex justify='space-between' w='100%' mb='md'>
       <Group>
