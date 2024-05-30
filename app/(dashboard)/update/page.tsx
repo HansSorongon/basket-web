@@ -18,11 +18,11 @@ import { notifications } from '@mantine/notifications'
 import { IconCalendar } from '@tabler/icons-react'
 import { IconTableExport, IconCirclePlus } from '@tabler/icons-react'
 
-import classes from './add.module.css'
+import classes from './update.module.css'
 import { addAsset } from '../../../actions/actions'
 import { Asset } from '../../../common/types'
 
-const addSectionTheme = createTheme({
+const updateSectionTheme = createTheme({
   components: {
     Input: Input.extend({
       classNames: {
@@ -32,7 +32,7 @@ const addSectionTheme = createTheme({
   },
 });
 
-export default function Add() {
+export default function Update() {
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -41,36 +41,7 @@ export default function Add() {
 
   async function handleSubmit(values: typeof form.values) {
 
-    notifications.show({
-      id: 'loading',
-      title: 'Add Asset',
-      message: 'Adding your asset...',
-      autoClose: 3000,
-      loading: true
-    })
-
-    values.warrantyDur = +values.warrantyDur
-    values.employeeID = values.employeeID ? +values.employeeID : null;
-
-    let status = await addAsset(values as Asset);
-
-    notifications.clean();
-
-    if (status) {
-      notifications.show({
-        title: 'Add Asset',
-        color: 'green',
-        message: 'Successfully added asset!',
-        autoClose: 2000,
-      })
-    } else {
-      notifications.show({
-        title: 'Add Asset',
-        color: 'red',
-        message: 'Failed to add asset!',
-        autoClose: 2000,
-      })
-    }
+    alert("Unimplemented.")
 
   };
 
@@ -85,7 +56,7 @@ export default function Add() {
       <Divider my='md' />
 
       <form onSubmit={form.onSubmit(handleSubmit, handleError)}>
-        <MantineProvider theme={addSectionTheme}>
+        <MantineProvider theme={updateSectionTheme}>
           <Flex bg='var(--mantine-color-gray-0)' p='xl' mx='md'>
 
             <Flex direction='column' mr='md' w='23%'>
@@ -219,7 +190,7 @@ export default function Add() {
 
           <Flex justify='flex-end' mt='md'>
             <Button leftSection={<IconTableExport />} mr='md'>Import</Button>
-            <Button type='submit' leftSection={<IconCirclePlus />}>Add</Button>
+            <Button type='submit' leftSection={<IconCirclePlus />}>Update</Button>
           </Flex>
         </MantineProvider>
       </form>

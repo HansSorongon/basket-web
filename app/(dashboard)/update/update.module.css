@@ -1,0 +1,20 @@
+
+.input {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.sectionHeader {
+  color: light-dark(var(--mantine-color-gray-5), var(--mantine-color-dark-4));
+  margin-bottom: var(--mantine-spacing-xs);
+  margin-left: var(--mantine-spacing-xs);
+}
+
+
+.mantine-Textarea-input {
+  background-color: red;
+}
+
+.areaInput {
+  height: 14vh;
+}
+
