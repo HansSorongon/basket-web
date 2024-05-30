@@ -15,16 +15,18 @@ import { deleteAssets } from '../../actions/actions'
 import { Asset } from '../../common/types';
 
 interface OptionButtonsProps {
-  selectedRecords: Asset[]
+  selectedRecords: Asset[],
+  trigger: any,
 }
 
-function handleDelete(assets: Asset[]) {
-  deleteAssets(assets);
+async function handleDelete(assets: Asset[], trigger: any) {
+  await deleteAssets(assets);
 
-  window.location.reload()
+  trigger();
+  // window.location.reload()
 }
 
-export default function OptionsButtonsProps({ selectedRecords }: OptionButtonsProps) {
+export default function OptionsButtonsProps({ selectedRecords, trigger }: OptionButtonsProps) {
 
   return (
     <Flex justify='space-between' w='100%' mb='md'>
@@ -37,7 +39,7 @@ export default function OptionsButtonsProps({ selectedRecords }: OptionButtonsPr
       <Group>
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconLayoutColumns size='20px' />}>Columns</Button>
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconUserPlus size='20px' />}>Assign</Button>
-        <Button variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />} onClick={() => handleDelete(selectedRecords)}>Delete</Button>
+        <Button variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />} onClick={() => handleDelete(selectedRecords, trigger)}>Delete</Button>
       </Group>
     </Flex>
   );

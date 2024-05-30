@@ -1,23 +1,26 @@
 'use client'
 
-import { useState, Suspense } from 'react'
-import { Box, Center, Loader } from '@mantine/core'
+import { useState, useEffect, Suspense } from 'react'
+import { Box, Center, Loader, Button } from '@mantine/core'
+
+import useSWRMutation from 'swr/mutation'
 
 import AssetTable from './assetTable/AssetTable';
 import OptionButtons from './options/OptionButtons'
+
 import { Asset } from '../common/types';
 
-interface DataTableContainerProps {
-  importedRecords: Asset[];
-}
+const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res.json());
 
-export default function DataTableContainer({ importedRecords }: DataTableContainerProps) {
+export default function DataTableContainer() {
+
+  const { trigger, isMutating } = useSWRMutation('https://basket-api.onrender.com/api/v1/assets', fetcher, /* options */)
 
   const [selectedRecords, setSelectedRecords] = useState<Asset[]>([])
 
   return (
     <>
-      <OptionButtons selectedRecords={selectedRecords} />
+      <OptionButtons selectedRecords={selectedRecords} trigger={trigger} />
 
       <Box h='65vh'>
         <Suspense fallback={
@@ -26,9 +29,10 @@ export default function DataTableContainer({ importedRecords }: DataTableContain
           </Center>
         }>
           <AssetTable
-            importedRecords={importedRecords}
             selectedRecords={selectedRecords}
             setSelectedRecords={setSelectedRecords}
+            fetcher={fetcher}
+            isMutating={isMutating}
           />
         </Suspense>
       </Box>
