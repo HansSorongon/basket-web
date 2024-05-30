@@ -24,6 +24,33 @@ export async function addAsset(value: Asset) {
   return false;
 }
 
+export async function updateAsset(value: Asset) {
+
+  console.log("Attempting to make request to server...")
+
+  console.log(JSON.stringify(value))
+
+  const res = await fetch('https://basket-api.onrender.com/api/v1/assets', {
+    method: 'PUT',
+    body: JSON.stringify(value)
+  });
+
+  if (res.ok) {
+    console.log(res);
+    console.log("Successfully updated asset!");
+
+    return true;
+
+  } else {
+    console.error("Internal Server Error!");
+  }
+
+  console.log(res)
+
+  return false;
+}
+
+
 export async function deleteAssets(assets: Asset[]) {
 
   console.log("Deleting assets...")
@@ -37,8 +64,12 @@ export async function deleteAssets(assets: Asset[]) {
   const fullUrl = baseUrl + encodedString;
   console.log(fullUrl)
 
-  const res = await fetch(fullUrl);
+  const res = await fetch(fullUrl, {
+    method: 'DELETE',
+  });
 
   console.log(res)
 
 }
+
+

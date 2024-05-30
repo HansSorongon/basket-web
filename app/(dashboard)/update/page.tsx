@@ -15,11 +15,13 @@ import {
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import { notifications } from '@mantine/notifications'
-import { IconCalendar } from '@tabler/icons-react'
-import { IconTableExport, IconCirclePlus } from '@tabler/icons-react'
+import { IconCalendar, IconTableExport, IconCirclePlus } from '@tabler/icons-react'
+import { useSearchParams } from 'next/navigation'
 
 import classes from './update.module.css'
-import { addAsset } from '../../../actions/actions'
+
+import { updateAsset } from '../../../actions/actions'
+
 import { Asset } from '../../../common/types'
 
 const updateSectionTheme = createTheme({
@@ -34,6 +36,9 @@ const updateSectionTheme = createTheme({
 
 export default function Update() {
 
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+
   const form = useForm({
     mode: 'uncontrolled',
     validate: {}
@@ -41,7 +46,38 @@ export default function Update() {
 
   async function handleSubmit(values: typeof form.values) {
 
-    alert("Unimplemented.")
+    notifications.show({
+      id: 'loading',
+      title: 'Update Asset',
+      message: 'Updating your asset...',
+      autoClose: 3000,
+      loading: true
+    })
+
+    values.id = id ? Number(id) : null;
+
+    values.warrantyDur = +values.warrantyDur
+    values.employeeID = values.employeeID ? +values.employeeID : null;
+
+    let status = await updateAsset(values as Asset);
+
+    notifications.clean();
+
+    if (status) {
+      notifications.show({
+        title: 'Update Asset',
+        color: 'green',
+        message: 'Successfully updated asset!',
+        autoClose: 2000,
+      })
+    } else {
+      notifications.show({
+        title: 'Update Asset',
+        color: 'red',
+        message: 'Failed to update asset!',
+        autoClose: 2000,
+      })
+    }
 
   };
 
@@ -52,7 +88,7 @@ export default function Update() {
   return (
     <Flex direction='column'>
 
-      < Title lineClamp={1} >Add Asset</Title >
+      < Title lineClamp={1} >Update Asset</Title >
       <Divider my='md' />
 
       <form onSubmit={form.onSubmit(handleSubmit, handleError)}>

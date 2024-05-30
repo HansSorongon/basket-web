@@ -3,7 +3,7 @@
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
 import { Center, ActionIcon } from '@mantine/core';
-import { DataTable } from 'mantine-datatable';
+import { DataTable, DataTableColumn } from 'mantine-datatable';
 import { IconEdit } from '@tabler/icons-react'
 
 import { Asset } from '../../common/types';
@@ -16,9 +16,9 @@ interface AssetTableProps {
   setSelectedRecords: any,
 }
 
-const renderActions = () => (
+const renderActions: DataTableColumn<Asset>['render'] = (record) => (
   <Center>
-    <ActionIcon variant='light' color='var(--mantine-color-green-8)'>
+    <ActionIcon component='a' href={'/update?id=' + record.id} variant='light' color='var(--mantine-color-green-8)'>
       <IconEdit size='20px' />
     </ActionIcon>
   </Center>
