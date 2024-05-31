@@ -2,6 +2,7 @@
 
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
+import useSWR from 'swr';
 import { Center, ActionIcon } from '@mantine/core';
 import { DataTable, DataTableColumn } from 'mantine-datatable';
 import { IconEdit } from '@tabler/icons-react'
@@ -10,10 +11,12 @@ import { Asset } from '../../common/types';
 
 const PAGE_SIZE: number = 15
 
+// trigger causes the asset table to refetch the data 
 interface AssetTableProps {
-  importedRecords: Asset[],
   selectedRecords: Asset[],
   setSelectedRecords: any,
+  fetcher: any,
+  isMutating?: boolean
 }
 
 const renderActions: DataTableColumn<Asset>['render'] = (record) => (
@@ -24,19 +27,29 @@ const renderActions: DataTableColumn<Asset>['render'] = (record) => (
   </Center>
 )
 
-export default function AssetTable(props: AssetTableProps) {
 
-  const { importedRecords, selectedRecords, setSelectedRecords } = props;
+export default function AssetTable({ selectedRecords, setSelectedRecords, fetcher, isMutating }: AssetTableProps) {
 
   const [page, setPage] = useState(1);
-  const [records, setRecords] = useState(importedRecords.slice(0, PAGE_SIZE));
+  const [records, setRecords] = useState([]);
+
+  const { data } = useSWR(
+    'https://basket-api.onrender.com/api/v1/assets',
+    fetcher,
+    {
+      onError: (error) => {
+        console.error('Failed to fetch resource: ', error);
+      }
+    })
 
   useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
 
-    setRecords(importedRecords.slice(from, to));
-  }, [page]);
+    if (data) {
+      setRecords(data.slice(from, to));
+    }
+  }, [data, page]);
 
   return (
     <>
@@ -81,15 +94,14 @@ export default function AssetTable(props: AssetTableProps) {
             render: renderActions,
           }
         ]}
-        // execute this callback when a row is clicked
-        onRowClick={() => { console.log(selectedRecords) }}
-        totalRecords={importedRecords.length}
+        totalRecords={data ? data.length : 0}
         noRecordsText={"The basket is empty!"}
         recordsPerPage={PAGE_SIZE}
         page={page}
         onPageChange={(p: number) => setPage(p)}
         selectedRecords={selectedRecords}
         onSelectedRecordsChange={setSelectedRecords}
+        fetching={!data || isMutating ? true : false}
       />
     </>
   );

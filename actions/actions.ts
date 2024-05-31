@@ -1,7 +1,9 @@
 'use server'
 
 import { Asset } from "../common/types";
+import { revalidatePath } from 'next/cache'
 
+// TODO: Add error hadndling here!
 export async function addAsset(value: Asset) {
 
   console.log("Attempting to make request to server...")
@@ -45,8 +47,6 @@ export async function updateAsset(value: Asset) {
     console.error("Internal Server Error!");
   }
 
-  console.log(res)
-
   return false;
 }
 
@@ -62,14 +62,12 @@ export async function deleteAssets(assets: Asset[]) {
   const baseUrl = 'https://basket-api.onrender.com/api/v1/assets/batch?toDelete='
   const encodedString = encodeURIComponent(JSON.stringify({ ids: assetIds }))
   const fullUrl = baseUrl + encodedString;
-  console.log(fullUrl)
 
   const res = await fetch(fullUrl, {
     method: 'DELETE',
   });
 
-  console.log(res);
-
+  revalidatePath('/');
 }
 
 
