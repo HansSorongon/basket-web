@@ -45,6 +45,7 @@ export default function AssetForm({ submitCallback, values, formTitle }: AssetFo
 
     // this is hardcoded to avoid any problems with the Asset interface requiring stuff
     initialValues: {
+      assetNum: values?.assetNum,
       assetType: values?.assetType,
       assetModel: values?.assetModel,
       specs: values?.specs,
@@ -74,7 +75,6 @@ export default function AssetForm({ submitCallback, values, formTitle }: AssetFo
   });
 
   async function handleSubmit(values: typeof form.values) {
-
     submitCallback(values, id);
   };
 
@@ -95,6 +95,10 @@ export default function AssetForm({ submitCallback, values, formTitle }: AssetFo
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>ASSET INFORMATION</Title>
 
+              <TextInput size='sm' label='Asset No.' mb='sm'
+                key={form.key('assetNum')}
+                {...form.getInputProps('assetNum')}>
+              </TextInput>
               <Select size='sm' label='Asset Type' mb='sm' data={['Keyboard', 'Mouse', 'Monitor']}
                 key={form.key('assetType')}
                 {...form.getInputProps('assetType')}>

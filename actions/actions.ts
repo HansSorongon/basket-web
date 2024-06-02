@@ -6,12 +6,15 @@ import { revalidatePath } from 'next/cache'
 // TODO: Add error hadndling here!
 export async function addAsset(value: Asset) {
 
-  console.log("Attempting to make request to server...")
+  const data = JSON.stringify(value);
 
   const res = await fetch('https://basket-api.onrender.com/api/v1/assets', {
     method: 'POST',
-    body: JSON.stringify(value)
+    body: data
   });
+
+  console.log(data)
+
 
   if (res.ok) {
     console.log(res);

@@ -63,7 +63,7 @@ export default function AssetTable({ selectedRecords, setSelectedRecords, fetche
         // define columns
         columns={[
           {
-            accessor: 'id',
+            accessor: 'assetNum',
             title: 'Asset No.',
             width: 90,
           },
