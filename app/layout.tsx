@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: any }) {
         <MantineProvider theme={theme}>
           <Flex>
             <Navbar />
-            <Container p='xl' w='83vw' fluid>
+            <Container p='lg' w='83vw' fluid>
               <Suspense fallback={<Loader />}>
                 <NextTopLoader />
                 <Notifications />
