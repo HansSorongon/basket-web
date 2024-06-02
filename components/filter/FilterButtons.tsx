@@ -21,6 +21,7 @@ import {
   IconFilter,
   IconChevronDown,
   IconCalendar,
+  IconX
 } from '@tabler/icons-react'
 
 
@@ -68,28 +69,36 @@ export default function FilterButtons() {
         >
           {(transitionStyle) => (
             <Paper shadow='xs' p='xl' mb='md' style={{ ...transitionStyle }}>
-              <Group justify='space-between' gap='2px' mb='xs'>
-                <TextInput w='19%' label='Asset Type'></TextInput>
-                <TextInput w='19%' label='Asset Bundle'></TextInput>
-                <TextInput w='19%' label='Model'></TextInput>
-                <TextInput w='19%' label='Supplier'></TextInput>
-                <TextInput w='19%' label='PO'></TextInput>
-              </Group>
 
-              <Group justify='space-between' gap='xs' mb='xs'>
-                <TextInput w='19%' label='Bundle No.'></TextInput>
-                <DateInput w='19%' leftSection={<IconCalendar size='20px' />} label='Warranty End Date'></DateInput>
-                <DateInput w='19%' leftSection={<IconCalendar size='20px' />} label='Acquisiton Date'></DateInput>
-                <TextInput w='19%' label='Employee Name'></TextInput>
-                <TextInput w='19%' label='Sales Invoice'></TextInput>
-              </Group>
+              <form>
+                <Group justify='space-between' gap='2px' mb='xs'>
+                  <TextInput w='19%' label='Asset Type'></TextInput>
+                  <TextInput w='19%' label='Asset Bundle'></TextInput>
+                  <TextInput w='19%' label='Model'></TextInput>
+                  <TextInput w='19%' label='Supplier'></TextInput>
+                  <TextInput w='19%' label='PO'></TextInput>
+                </Group>
 
-              <Group justify='space-between' gap='xs'>
-                <TextInput w='24%' label='Delivery Receipt'></TextInput>
-                <Select w='24%' label='Market Circle'></Select>
-                <Select w='24%' label='Project'></Select>
-                <Select w='24%' label='PEZA Zone'></Select>
-              </Group>
+                <Group justify='space-between' gap='xs' mb='xs'>
+                  <TextInput w='19%' label='Bundle No.'></TextInput>
+                  <DateInput w='19%' leftSection={<IconCalendar size='20px' />} label='Warranty End Date'></DateInput>
+                  <DateInput w='19%' leftSection={<IconCalendar size='20px' />} label='Acquisiton Date'></DateInput>
+                  <TextInput w='19%' label='Employee Name'></TextInput>
+                  <TextInput w='19%' label='Sales Invoice'></TextInput>
+                </Group>
+
+                <Group justify='space-between' gap='xs' mb='xs'>
+                  <TextInput w='24%' label='Delivery Receipt'></TextInput>
+                  <Select w='24%' label='Market Circle'></Select>
+                  <Select w='24%' label='Project'></Select>
+                  <Select w='24%' label='PEZA Zone'></Select>
+                </Group>
+
+                <Group justify='flex-end'>
+                  <Button type='reset' variant='outline' color='red' >Clear</Button>
+                  <Button>Apply Filters</Button>
+                </Group>
+              </form>
 
             </Paper>
           )}

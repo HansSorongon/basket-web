@@ -6,6 +6,7 @@ import {
   Button,
   Divider,
   TextInput,
+  NumberInput,
   Input,
   MantineProvider,
   Select,
@@ -16,6 +17,9 @@ import { ReactElement } from 'react'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import { IconCalendar, IconTableExport, IconCirclePlus } from '@tabler/icons-react'
+
+import { zodResolver } from 'mantine-form-zod-resolver'
+import { z } from 'zod'
 
 import classes from './assetForm.module.css'
 
@@ -28,7 +32,8 @@ interface AssetFormProps {
   buttonText: string
 }
 
-const updateSectionTheme = createTheme({
+
+const inputSectionTheme = createTheme({
   components: {
     Input: Input.extend({
       classNames: {
@@ -36,6 +41,11 @@ const updateSectionTheme = createTheme({
       },
     }),
   },
+})
+
+const schema = z.object({
+  warrantyDur: z.number(),
+  unitCost: z.number()
 });
 
 export default function AssetForm({ submitCallback, values, formTitle, buttonText }: AssetFormProps) {
@@ -73,11 +83,13 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
       remarks: values?.remarks,
       invRemarks: values?.invRemarks
     },
-    validate: {}
+    validate: zodResolver(schema)
   });
 
   async function handleSubmit(values: typeof form.values) {
-    submitCallback(values, id);
+    const test = form.validate();
+    console.log(test)
+    // submitCallback(values, id);
   };
 
   function handleError() {
@@ -91,41 +103,41 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
       <Divider my='md' />
 
       <form onSubmit={form.onSubmit(handleSubmit, handleError)}>
-        <MantineProvider theme={updateSectionTheme}>
+        <MantineProvider theme={inputSectionTheme}>
           <Flex bg='var(--mantine-color-gray-0)' p='xl' mx='md'>
 
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>ASSET INFORMATION</Title>
 
-              <TextInput size='sm' label='Asset No.' mb='sm'
+              <TextInput size='sm' label='Asset No.' mb='sm' required
                 key={form.key('assetNum')}
                 {...form.getInputProps('assetNum')}>
               </TextInput>
-              <Select size='sm' label='Asset Type' mb='sm' data={['Keyboard', 'Mouse', 'Monitor']}
+              <Select size='sm' label='Asset Type' mb='sm' data={['Keyboard', 'Mouse', 'Monitor']} required
                 key={form.key('assetType')}
                 {...form.getInputProps('assetType')}>
               </Select>
-              <TextInput size='sm' label='Model' mb='sm'
+              <TextInput size='sm' label='Model' mb='sm' required
                 key={form.key('assetModel')}
                 {...form.getInputProps('assetModel')}>
               </TextInput>
-              <TextInput size='sm' label='Specification' mb='sm'
+              <TextInput size='sm' label='Specification' mb='sm' required
                 key={form.key('specs')}
                 {...form.getInputProps('specs')}>
               </TextInput>
-              <TextInput size='sm' label='Serial Number' mb='sm'
+              <TextInput size='sm' label='Serial Number' mb='sm' required
                 key={form.key('serialNum')}
                 {...form.getInputProps('serialNum')}>
               </TextInput>
-              <TextInput size='sm' label='Purchase Order' mb='sm'
+              <TextInput size='sm' label='Purchase Order' mb='sm' required
                 key={form.key('pchOrder')}
                 {...form.getInputProps('pchOrder')}>
               </TextInput>
-              <TextInput size='sm' label='Sales Invoice' mb='sm'
+              <TextInput size='sm' label='Sales Invoice' mb='sm' required
                 key={form.key('salesInv')}
                 {...form.getInputProps('salesInv')}>
               </TextInput>
-              <TextInput size='sm' label='Delivery Receipt' mb='sm'
+              <TextInput size='sm' label='Delivery Receipt' mb='sm' required
                 key={form.key('delivRct')}
                 {...form.getInputProps('delivRct')}>
               </TextInput>
@@ -136,35 +148,35 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
 
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>SUPPLIER INFORMATION</Title>
-              <TextInput size='sm' label='Supplier' mb='sm'
+              <TextInput size='sm' label='Supplier' mb='sm' required
                 key={form.key('supplier')}
                 {...form.getInputProps('supplier')}>
               </TextInput>
-              <DateInput size='sm' label='Acquistion Date' mb='sm' leftSection={<IconCalendar size='20px' />}
+              <DateInput size='sm' label='Acquistion Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
                 key={form.key('acqDate')}
                 {...form.getInputProps('acqDate')}>
               </DateInput>
-              <TextInput size='sm' label='Warranty' mb='sm' placeholder='in years'
+              <NumberInput size='sm' label='Warranty' mb='sm' placeholder='in years' required
                 key={form.key('warrantyDur')}
                 {...form.getInputProps('warrantyDur')}>
-              </TextInput>
-              <DateInput size='sm' label='Warranty End Date' mb='sm' leftSection={<IconCalendar size='20px' />}
+              </NumberInput>
+              <DateInput size='sm' label='Warranty End Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
                 key={form.key('warrEndDate')}
                 {...form.getInputProps('warrEndDate')}>
               </DateInput>
-              <Select size='sm' label='Currency' mb='sm' data={['USD', 'PHP', 'EUR']}
+              <Select size='sm' label='Currency' mb='sm' data={['USD', 'PHP', 'EUR']} required
                 key={form.key('currency')}
                 {...form.getInputProps('currency')}>
               </Select>
-              <TextInput size='sm' label='Unit Cost' placeholder='(ex. VAT)' mb='sm'
+              <NumberInput size='sm' label='Unit Cost' placeholder='(ex. VAT)' mb='sm' required
                 key={form.key('unitCost')}
                 {...form.getInputProps('unitCost')}>
-              </TextInput>
+              </NumberInput>
               <TextInput size='sm' label='Peza Zone' mb='sm'
                 key={form.key('pezaZone')}
                 {...form.getInputProps('pezaZone')}>
               </TextInput>
-              <Select size='sm' label='Market Circle' mb='sm' data={['Tech', 'Communication', 'Miscellaneous']}
+              <Select size='sm' label='Market Circle' mb='sm' data={['Tech', 'Communication', 'Miscellaneous']} required
                 key={form.key('mktCircle')}
                 {...form.getInputProps('mktCircle')}>
               </Select>
@@ -174,27 +186,27 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
 
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>MISCELLANEOUS</Title>
-              <Select size='sm' label='Classification' mb='sm' data={['Input', 'Output', 'Storage', 'Networking']}
+              <Select size='sm' label='Classification' mb='sm' data={['Input', 'Output', 'Storage', 'Networking']} required
                 key={form.key('class')}
                 {...form.getInputProps('class')}>
               </Select>
-              <Select size='sm' label='Status' mb='sm' data={['Active', 'Inactive']}
+              <Select size='sm' label='Status' mb='sm' data={['Active', 'Inactive']} required
                 key={form.key('status')}
                 {...form.getInputProps('status')}>
               </Select>
-              <DateInput size='sm' label='Status Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />}
+              <DateInput size='sm' label='Status Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
                 key={form.key('statEffDate')}
                 {...form.getInputProps('statEffDate')}>
               </DateInput>
-              <DateInput size='sm' label='Recent Inventory Date' mb='sm' leftSection={<IconCalendar size='20px' />}
+              <DateInput size='sm' label='Recent Inventory Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
                 key={form.key('recInvDate')}
                 {...form.getInputProps('recInvDate')}>
               </DateInput>
-              <Select size='sm' label='Location' mb='sm' data={['Shelf', 'Table', 'Cabinet']}
+              <Select size='sm' label='Location' mb='sm' data={['Shelf', 'Table', 'Cabinet']} required
                 key={form.key('location')}
                 {...form.getInputProps('location')}>
               </Select>
-              <DateInput size='sm' label='Location Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />}
+              <DateInput size='sm' label='Location Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
                 key={form.key('locEffDate')}
                 {...form.getInputProps('locEffDate')}>
               </DateInput>
