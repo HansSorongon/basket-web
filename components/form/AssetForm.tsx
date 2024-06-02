@@ -12,6 +12,7 @@ import {
   Textarea,
   createTheme
 } from '@mantine/core'
+import { ReactElement } from 'react'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import { IconCalendar, IconTableExport, IconCirclePlus } from '@tabler/icons-react'
@@ -24,6 +25,7 @@ interface AssetFormProps {
   submitCallback: any,
   values?: Asset,
   formTitle?: string,
+  buttonText: string
 }
 
 const updateSectionTheme = createTheme({
@@ -36,7 +38,7 @@ const updateSectionTheme = createTheme({
   },
 });
 
-export default function AssetForm({ submitCallback, values, formTitle }: AssetFormProps) {
+export default function AssetForm({ submitCallback, values, formTitle, buttonText }: AssetFormProps) {
 
   const id = values ? values.id : '';
 
@@ -223,7 +225,7 @@ export default function AssetForm({ submitCallback, values, formTitle }: AssetFo
 
           <Flex justify='flex-end' mt='md'>
             <Button leftSection={<IconTableExport />} mr='md'>Import</Button>
-            <Button type='submit' leftSection={<IconCirclePlus />}>Update</Button>
+            <Button type='submit' leftSection={<IconCirclePlus />}>{buttonText}</Button>
           </Flex>
         </MantineProvider>
       </form>
