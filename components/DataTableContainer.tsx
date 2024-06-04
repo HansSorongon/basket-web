@@ -7,6 +7,7 @@ import useSWRMutation from 'swr/mutation'
 
 import AssetTable from './assetTable/AssetTable';
 import OptionButtons from './options/OptionButtons'
+import FilterButtons from './filter/FilterButtons';
 
 import { Asset } from '../common/types';
 
@@ -20,21 +21,15 @@ export default function DataTableContainer() {
 
   return (
     <>
+      <FilterButtons />
       <OptionButtons selectedRecords={selectedRecords} trigger={trigger} />
-
       <Box h='65vh'>
-        <Suspense fallback={
-          <Center>
-            <Loader type='dots' />
-          </Center>
-        }>
-          <AssetTable
-            selectedRecords={selectedRecords}
-            setSelectedRecords={setSelectedRecords}
-            fetcher={fetcher}
-            isMutating={isMutating}
-          />
-        </Suspense>
+        <AssetTable
+          selectedRecords={selectedRecords}
+          setSelectedRecords={setSelectedRecords}
+          fetcher={fetcher}
+          isMutating={isMutating}
+        />
       </Box>
     </>
   )

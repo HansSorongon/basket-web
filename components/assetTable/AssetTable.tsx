@@ -60,12 +60,11 @@ export default function AssetTable({ selectedRecords, setSelectedRecords, fetche
         striped
         highlightOnHover
         records={records}
-        // define columns
         columns={[
           {
             accessor: 'assetNum',
             title: 'Asset No.',
-            width: 90,
+            width: 80,
           },
           { accessor: 'assetType', title: 'Asset Type' },
           { accessor: 'assetModel', title: 'Model' },
