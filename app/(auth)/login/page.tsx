@@ -38,7 +38,7 @@ export default function Login() {
       <Center>
 
         <Text c='dimmed' size='xs'>
-          Don't have an account yet?&nbsp;
+          Don&apos;t have an account yet?&nbsp;
         </Text>
 
         <Anchor td='underline' href='/register' c='black' fw={500} size='xs' pos='relative'>
