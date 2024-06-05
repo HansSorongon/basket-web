@@ -1,12 +1,15 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { Box, Center, Loader, Button } from '@mantine/core'
+import dayjs from 'dayjs'
+import { useState, useEffect } from 'react'
+import { Box } from '@mantine/core'
+import useSWR from 'swr';
 
 import useSWRMutation from 'swr/mutation'
 
 import AssetTable from './assetTable/AssetTable';
 import OptionButtons from './options/OptionButtons'
+import FilterButtons from './filter/FilterButtons';
 
 import { Asset } from '../common/types';
 
@@ -14,28 +17,59 @@ const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res
 
 export default function DataTableContainer() {
 
-  const { trigger, isMutating } = useSWRMutation('https://basket-api.onrender.com/api/v1/assets', fetcher, /* options */)
-
+  const [filteredData, setFilteredData] = useState([])
   const [selectedRecords, setSelectedRecords] = useState<Asset[]>([])
+  const { trigger, isMutating } = useSWRMutation('https://basket-api.onrender.com/api/v1/assets', fetcher)
+
+  const { data } = useSWR(
+    'https://basket-api.onrender.com/api/v1/assets',
+    fetcher,
+    {
+      onError: (error) => {
+        console.error('Failed to fetch resource: ', error);
+      }
+    })
+
+  function applyFilter(filters: any) {
+
+    let filteredData = data;
+
+    console.log(filteredData)
+
+    for (let key in filters) {
+      if (key.toLowerCase().includes('date')) {
+        filteredData = filteredData.filter((entry: any) => {
+          // disregards timezone
+          return (entry[key].split('T')[0] == dayjs(filters[key]).format('YYYY-MM-DD'));
+        })
+        continue;
+      };
+
+      filteredData = filteredData.filter((entry: any) => {
+        return (entry[key] as string).toLowerCase().startsWith(String(filters[key]).toLowerCase());
+      })
+    }
+
+
+    setFilteredData(filteredData);
+  }
+
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data])
 
   return (
-    <>
+    <Box>
+      <FilterButtons applyFilter={applyFilter} />
       <OptionButtons selectedRecords={selectedRecords} trigger={trigger} />
-
       <Box h='65vh'>
-        <Suspense fallback={
-          <Center>
-            <Loader type='dots' />
-          </Center>
-        }>
-          <AssetTable
-            selectedRecords={selectedRecords}
-            setSelectedRecords={setSelectedRecords}
-            fetcher={fetcher}
-            isMutating={isMutating}
-          />
-        </Suspense>
+        <AssetTable
+          selectedRecords={selectedRecords}
+          setSelectedRecords={setSelectedRecords}
+          isMutating={isMutating || !data}
+          data={filteredData}
+        />
       </Box>
-    </>
+    </Box>
   )
 }

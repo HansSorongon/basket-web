@@ -2,9 +2,8 @@ import {
   Flex,
   Title,
   Divider,
+  Button
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import { notifications } from '@mantine/notifications'
 
 import { addAsset } from '../../../actions/actions'
 import { Asset } from '../../../common/types'
@@ -29,8 +28,7 @@ export default function Add() {
 
       < Title lineClamp={1} >Add Asset</Title >
       <Divider my='md' />
-      <AssetForm submitCallback={submitCallback} />
-
+      <AssetForm submitCallback={submitCallback} buttonText={'Add'} />
     </Flex >
 
   );

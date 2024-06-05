@@ -1,7 +1,6 @@
 import { Suspense } from 'react'
 import React from "react";
 import { MantineProvider, Container, Loader, ColorSchemeScript, Flex } from "@mantine/core";
-import { Notifications } from '@mantine/notifications'
 
 import NextTopLoader from 'nextjs-toploader'
 
@@ -12,8 +11,6 @@ import './layout.css'
 import '@mantine/notifications/styles.css';
 
 import { theme } from "../theme";
-
-import Navbar from '../components/navbar/Navbar'
 
 export const metadata = {
   title: "Basket",
@@ -33,16 +30,10 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <Flex>
-            <Navbar />
-            <Container p='xl' w='83vw' fluid>
-              <Suspense fallback={<Loader />}>
-                <NextTopLoader />
-                <Notifications />
-                {children}
-              </Suspense>
-            </Container>
-          </Flex>
+          <Suspense fallback={<Loader />}>
+            <NextTopLoader />
+            {children}
+          </Suspense>
         </MantineProvider>
       </body>
     </html>
