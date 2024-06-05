@@ -1,5 +1,5 @@
 'use client'
-import { Group, Button, Flex } from '@mantine/core'
+import { Group, Button, Flex, Popover, Checkbox } from '@mantine/core'
 import {
   IconCategory,
   IconTarget,
@@ -21,12 +21,10 @@ interface OptionButtonsProps {
 
 async function handleDelete(assets: Asset[], trigger: any) {
   await deleteAssets(assets);
-
   trigger();
-  // window.location.reload()
 }
 
-export default function OptionsButtonsProps({ selectedRecords, trigger }: OptionButtonsProps) {
+export default function OptionsButtonsProps({ data, selectedRecords, trigger }: OptionButtonsProps) {
 
   return (
     <Flex justify='space-between' w='100%' mb='md'>
@@ -37,7 +35,19 @@ export default function OptionsButtonsProps({ selectedRecords, trigger }: Option
       </Group>
 
       <Group>
-        <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconLayoutColumns size='20px' />}>Columns</Button>
+        <Popover>
+          <Popover.Target>
+            <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconLayoutColumns size='20px' />}>Columns</Button>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Flex direction='column' gap='xs'>
+              <Checkbox label="Asset Number" />
+              <Checkbox label="Asset Model" />
+              <Checkbox label="Sales Invoice" />
+              <Checkbox label="Market Circle" />
+            </Flex>
+          </Popover.Dropdown>
+        </Popover>
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconUserPlus size='20px' />}>Assign</Button>
         <Button variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />} onClick={() => handleDelete(selectedRecords, trigger)}>Delete</Button>
       </Group>
