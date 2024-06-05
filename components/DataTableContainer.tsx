@@ -42,6 +42,7 @@ export default function DataTableContainer() {
       if (key.toLowerCase().includes('date')) {
         filteredData = filteredData.filter((entry: any) => {
           // disregards timezone
+          console.log(entry[key].split('T')[0], dayjs(filters[key]).format('YYYY-MM-DD'))
           return (entry[key].split('T')[0] == dayjs(filters[key]).format('YYYY-MM-DD'));
         })
         continue;
