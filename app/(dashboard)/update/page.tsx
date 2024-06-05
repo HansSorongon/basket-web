@@ -13,6 +13,7 @@ async function getAsset(id: any) {
 
   const res = await fetch(url, {
     method: 'GET',
+    cache: 'no-store'
   });
   const data = await res.json();
 
