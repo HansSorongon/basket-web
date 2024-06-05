@@ -14,7 +14,7 @@ import {
   IconSettings2,
   IconLogout
 } from '@tabler/icons-react';
-import { Logo } from './logo'
+import { Logo } from '../../common/logo';
 import classes from './navbar.module.css';
 import { usePathname } from 'next/navigation'
 

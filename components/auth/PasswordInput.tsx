@@ -1,0 +1,21 @@
+'use client'
+import { PasswordInput, Text, Group, Anchor, Checkbox } from '@mantine/core';
+import { IconLock } from '@tabler/icons-react';
+
+export function ForgotPasswordInput() {
+  return (
+    <>
+      <Text component="label" htmlFor="your-password" size="sm" fw={500}>
+        Password
+      </Text>
+      <PasswordInput placeholder="Your password" id="your-password" mb='5px' leftSection={<IconLock size={16} />} />
+      <Group justify='space-between'>
+        <Checkbox label='Remember me?' size='xs'></Checkbox>
+        <Anchor href="#" onClick={(event) => event.preventDefault()} pt={2} fw={500} fz="xs">
+          Forgot password?
+        </Anchor>
+      </Group>
+
+    </>
+  );
+}
