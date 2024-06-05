@@ -37,7 +37,7 @@ export default async function Update({ searchParams }: { searchParams: { id: num
     <>
       {
         searchParams['id'] ?
-          <AssetForm submitCallback={submitCallback} values={await getAsset(searchParams['id'])} formTitle={'Update Asset'} />
+          <AssetForm submitCallback={submitCallback} values={await getAsset(searchParams['id'])} formTitle={'Update Asset'} buttonText={'Update'} />
           :
           <Box>
             <Title>No ID found!</Title>
