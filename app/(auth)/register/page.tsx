@@ -1,61 +1,66 @@
-
 import {
   Box,
   Title,
   Text,
+  Group,
   Button,
-  Flex,
-  Image,
   TextInput,
   Center,
-  Anchor
-
+  Anchor,
+  Space,
+  Select,
+  PasswordInput
 } from '@mantine/core'
-import { IconMail } from '@tabler/icons-react'
+import { IconMail, IconArrowUpRight, IconLock, IconUsers } from '@tabler/icons-react'
 import { Logo } from '../../../common/logo'
 
 import { ForgotPasswordInput } from '../../../components/auth/PasswordInput'
 
 export default function Login() {
   return (
-    <Flex>
-
-      <Flex w='22vw' align='center' justify='center'>
-        <Box w='80%'>
-          <Box mb='xl'>
-            <Logo />
-          </Box>
-
-          <Box mb='lg'>
-            <Title order={2}>Welcome back!</Title>
-            <Text mb='sm' c='dimmed'>Please login with your work email.</Text>
-
-            <Text component="label" htmlFor="your-password" size="sm" fw={500}>
-              Email
-            </Text>
-            <TextInput leftSection={<IconMail size={16} />} placeholder="example@gmail.com" id="your-email" mb='xs' />
-
-            <ForgotPasswordInput />
-          </Box>
-
-          <Button w='100%' mb='6px'>Login</Button>
-          <Center>
-            <Text c='dimmed' size='xs'>
-              Don't have an account yet?&nbsp;
-              <Anchor>
-                Register now!
-              </Anchor>
-            </Text>
-          </Center>
-
-        </Box>
-      </Flex>
-
-
-      <Box w='78vw' h='100vh'>
-        <Image src='basket_background.jpg' h='100%'></Image>
+    <Box w='80%'>
+      <Box mb='xl'>
+        <Logo />
       </Box>
 
-    </Flex>
+      <Box mb='lg'>
+        <Title order={2}>Register an Account</Title>
+        <Text mb='sm' c='dimmed'>Please provide your details below.</Text>
+
+        <TextInput label='First Name' placeholder="Gabriel Alfonso" id="firstName" mb='xs' />
+
+        <Group justify='space-between'>
+          <TextInput label='Last Name' placeholder="Mortelli" id="firstName" mb='xs' w='65%' />
+          <TextInput label='Middle Initial' placeholder="P" id="firstName" mb='xs' w='30%' />
+        </Group>
+
+        <TextInput label='Email' leftSection={<IconMail size={16} />} placeholder="example@gmail.com" id="your-email" mb='xs' />
+
+        <PasswordInput label='Password' placeholder='••••••••••••' leftSection={<IconLock size='16px' />} mb='xs' />
+        <PasswordInput label='Confirm Password' placeholder='••••••••••••' leftSection={<IconLock size='16px' />} mb='xs' />
+
+        <Select leftSection={<IconUsers size={16} />} placeholder='Select a department...' label='Department' mb='xs'
+          data={['Administrative', 'Human Resources', 'Purchasing', 'IT Operations', 'Sales', 'Marketing', 'Accounting', 'Finance']}
+        >
+        </Select>
+      </Box>
+
+      <Button w='100%' mb='6px'>Register</Button>
+      <Center>
+
+        <Text c='dimmed' size='xs'>
+          Already have an account?&nbsp;
+        </Text>
+
+        <Anchor td='underline' href='/login' c='black' fw={500} size='xs' pos='relative'>
+          Login now!<IconArrowUpRight size='16px' style={{ marginBottom: '-4px' }} />
+        </Anchor>
+
+
+      </Center>
+
+      <Space h='xl' />
+
+    </Box>
   )
 }

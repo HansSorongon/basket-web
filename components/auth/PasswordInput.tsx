@@ -8,10 +8,10 @@ export function ForgotPasswordInput() {
       <Text component="label" htmlFor="your-password" size="sm" fw={500}>
         Password
       </Text>
-      <PasswordInput placeholder="Your password" id="your-password" mb='5px' leftSection={<IconLock size={16} />} />
+      <PasswordInput placeholder="••••••••••••" id="your-password" mb='5px' leftSection={<IconLock size={16} />} />
       <Group justify='space-between'>
         <Checkbox label='Remember me?' size='xs'></Checkbox>
-        <Anchor href="#" onClick={(event) => event.preventDefault()} pt={2} fw={500} fz="xs">
+        <Anchor td='underline' href="#" onClick={(event) => event.preventDefault()} pt={2} fw={500} fz="xs" c='black'>
           Forgot password?
         </Anchor>
       </Group>
