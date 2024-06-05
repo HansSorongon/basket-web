@@ -1,6 +1,8 @@
 'use client'
+
 import { Group, Button, Flex, Popover, Checkbox, ScrollArea } from '@mantine/core'
 import { titles } from '../../common/types'
+
 import {
   IconCategory,
   IconTarget,
@@ -63,8 +65,8 @@ export default function OptionsButtonsProps({ selectedRecords, trigger, columns,
           </Popover.Dropdown>
         </Popover>
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconUserPlus size='20px' />}>Assign</Button>
-        <Button variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />} onClick={() => handleDelete(selectedRecords, trigger)}>Delete</Button>
+        <Button classNames={{ root: classes.root }} disabled={selectedRecords.length > 0 ? false : true} variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />} onClick={() => handleDelete(selectedRecords, trigger)}>Delete</Button>
       </Group>
-    </Flex>
+    </Flex >
   );
 }
