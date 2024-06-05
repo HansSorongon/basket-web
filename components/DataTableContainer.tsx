@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import dayjs from 'dayjs'
+import { useState, useEffect } from 'react'
 import { Box } from '@mantine/core'
 import useSWR from 'swr';
 
@@ -16,9 +17,9 @@ const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res
 
 export default function DataTableContainer() {
 
-  const [filters, setFilters] = useState({})
-
-  const { trigger, isMutating } = useSWRMutation('https://basket-api.onrender.com/api/v1/assets', fetcher, /* options */)
+  const [filteredData, setFilteredData] = useState([])
+  const [selectedRecords, setSelectedRecords] = useState<Asset[]>([])
+  const { trigger, isMutating } = useSWRMutation('https://basket-api.onrender.com/api/v1/assets', fetcher)
 
   const { data } = useSWR(
     'https://basket-api.onrender.com/api/v1/assets',
@@ -29,18 +30,44 @@ export default function DataTableContainer() {
       }
     })
 
-  const [selectedRecords, setSelectedRecords] = useState<Asset[]>([])
+  function applyFilter(filters: any) {
+
+    let filteredData = data;
+
+    console.log(filteredData)
+
+    for (let key in filters) {
+      if (key.toLowerCase().includes('date')) {
+        filteredData = filteredData.filter((entry: any) => {
+          // disregards timezone
+          return (entry[key].split('T')[0] == dayjs(filters[key]).format('YYYY-MM-DD'));
+        })
+        continue;
+      };
+
+      filteredData = filteredData.filter((entry: any) => {
+        return (entry[key] as string).toLowerCase().startsWith(String(filters[key]).toLowerCase());
+      })
+    }
+
+
+    setFilteredData(filteredData);
+  }
+
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data])
 
   return (
     <Box>
-      <FilterButtons setFilters={setFilters} />
+      <FilterButtons applyFilter={applyFilter} />
       <OptionButtons selectedRecords={selectedRecords} trigger={trigger} />
       <Box h='65vh'>
         <AssetTable
           selectedRecords={selectedRecords}
           setSelectedRecords={setSelectedRecords}
-          isMutating={isMutating}
-          data={data}
+          isMutating={isMutating || !data}
+          data={filteredData}
         />
       </Box>
     </Box>

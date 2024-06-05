@@ -39,17 +39,9 @@ export default function AssetTable({ selectedRecords, setSelectedRecords, isMuta
     }
   }, [data, page]);
 
-  const applyFilter = () => {
-    const filtered = records.filter((entry) => {
-      return (entry['assetNum'] as string).toLowerCase().startsWith(String('ABC').toLowerCase())
-    })
-
-    setRecords(filtered)
-  }
 
   return (
     <>
-      <Button onClick={applyFilter}>Test</Button>
       <DataTable
         withTableBorder
         borderRadius="md"
