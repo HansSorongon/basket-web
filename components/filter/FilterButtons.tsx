@@ -1,6 +1,5 @@
 'use client'
 
-import { FormEvent } from 'react'
 import { Collapse } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import {
@@ -14,7 +13,6 @@ import {
   createTheme,
   MantineProvider,
   Select,
-  Transition
 } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import {
@@ -27,7 +25,6 @@ import {
 import { useForm } from '@mantine/form'
 
 import classes from './filterButtons.module.css'
-import { ChangeEventHandler } from 'react'
 
 const dropSectionTheme = createTheme({
   components: {
@@ -41,7 +38,7 @@ const dropSectionTheme = createTheme({
 
 export default function FilterButtons({ applyFilter }: { applyFilter: any }) {
 
-  const [opened, { toggle }] = useDisclosure(true);
+  const [opened, { toggle }] = useDisclosure(false);
   const form = useForm({
     mode: 'uncontrolled'
   })
