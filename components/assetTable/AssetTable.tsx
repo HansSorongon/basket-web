@@ -27,7 +27,7 @@ const renderActions: DataTableColumn<Asset>['render'] = (record) => (
   </Center>
 )
 
-function generateColumns(columns: string[]): DataTableColumn<any>[] {
+function generateColumns(columns: string[]): DataTableColumn<Asset>[] {
 
   const columnProps = []
 
