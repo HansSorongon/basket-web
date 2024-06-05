@@ -17,6 +17,10 @@ const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res
 
 export default function DataTableContainer() {
 
+  const initialColumns = ['assetNum', 'assetType', 'serialNum', 'bundleNum', 'status', 'statEffDate',
+    'employeeID', 'location', 'locRemarks', 'recInvDate']
+
+  const [columns, setColumns] = useState<string[]>(initialColumns);
   const [filteredData, setFilteredData] = useState([])
   const [selectedRecords, setSelectedRecords] = useState<Asset[]>([])
   const { trigger, isMutating } = useSWRMutation('https://basket-api.onrender.com/api/v1/assets', fetcher)
@@ -34,8 +38,6 @@ export default function DataTableContainer() {
 
     let filteredData = data;
 
-    console.log(filteredData)
-
     for (let key in filters) {
       if (key.toLowerCase().includes('date')) {
         filteredData = filteredData.filter((entry: any) => {
@@ -50,7 +52,6 @@ export default function DataTableContainer() {
       })
     }
 
-
     setFilteredData(filteredData);
   }
 
@@ -61,15 +62,32 @@ export default function DataTableContainer() {
   return (
     <Box>
       <FilterButtons applyFilter={applyFilter} />
-      <OptionButtons selectedRecords={selectedRecords} trigger={trigger} />
+      <OptionButtons selectedRecords={selectedRecords} trigger={trigger} columns={columns} setColumns={setColumns} />
       <Box h='65vh'>
         <AssetTable
           selectedRecords={selectedRecords}
           setSelectedRecords={setSelectedRecords}
           isMutating={isMutating || !data}
           data={filteredData}
+          columns={columns}
         />
       </Box>
     </Box>
   )
 }
+
+//           { accessor: 'location', title: 'Location' },
+//           { accessor: 'locRemarks', title: 'Location Remarks' },
+//           {
+//             accessor: 'recInvDate',
+//             title: 'Last Inventory',
+//             render: ({ recInvDate }) => dayjs(recInvDate).format('MMM DD, YYYY'),
+//           },
+//
+//           {
+//             accessor: 'actions',
+//             title: 'Update',
+//             width: '0%',
+//             render: renderActions,
+//           }
+//         ]
