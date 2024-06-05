@@ -1,9 +1,8 @@
 'use client';
 
 import dayjs from 'dayjs'
-import { useState, useEffect } from 'react'
-import useSWR from 'swr';
-import { Center, ActionIcon } from '@mantine/core';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { Center, ActionIcon, Button } from '@mantine/core';
 import { DataTable, DataTableColumn } from 'mantine-datatable';
 import { IconEdit } from '@tabler/icons-react'
 
@@ -11,12 +10,11 @@ import { Asset } from '../../common/types';
 
 const PAGE_SIZE: number = 15
 
-// trigger causes the asset table to refetch the data 
 interface AssetTableProps {
   selectedRecords: Asset[],
-  setSelectedRecords: any,
-  fetcher: any,
-  isMutating?: boolean
+  setSelectedRecords: any, // set to any to silence the bug
+  isMutating?: boolean,
+  data?: Asset[]
 }
 
 const renderActions: DataTableColumn<Asset>['render'] = (record) => (
@@ -27,20 +25,10 @@ const renderActions: DataTableColumn<Asset>['render'] = (record) => (
   </Center>
 )
 
-
-export default function AssetTable({ selectedRecords, setSelectedRecords, fetcher, isMutating }: AssetTableProps) {
+export default function AssetTable({ selectedRecords, setSelectedRecords, isMutating, data }: AssetTableProps) {
 
   const [page, setPage] = useState(1);
-  const [records, setRecords] = useState([]);
-
-  const { data } = useSWR(
-    'https://basket-api.onrender.com/api/v1/assets',
-    fetcher,
-    {
-      onError: (error) => {
-        console.error('Failed to fetch resource: ', error);
-      }
-    })
+  const [records, setRecords] = useState<Asset[]>([]);
 
   useEffect(() => {
     const from = (page - 1) * PAGE_SIZE;
@@ -51,8 +39,17 @@ export default function AssetTable({ selectedRecords, setSelectedRecords, fetche
     }
   }, [data, page]);
 
+  const applyFilter = () => {
+    const filtered = records.filter((entry) => {
+      return (entry['assetNum'] as string).toLowerCase().startsWith(String('ABC').toLowerCase())
+    })
+
+    setRecords(filtered)
+  }
+
   return (
     <>
+      <Button onClick={applyFilter}>Test</Button>
       <DataTable
         withTableBorder
         borderRadius="md"

@@ -70,6 +70,7 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
       warrantyDur: values?.warrantyDur,
       warrEndDate: values?.warrEndDate ? new Date(String(values?.warrEndDate)) : '',
       currency: values?.currency,
+      unitCost: values?.unitCost,
       pezaZone: values?.pezaZone,
       mktCircle: values?.mktCircle,
       class: values?.class,
@@ -88,8 +89,7 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
 
   async function handleSubmit(values: typeof form.values) {
     const test = form.validate();
-    console.log(test)
-    // submitCallback(values, id);
+    submitCallback(values, id);
   };
 
   function handleError() {
