@@ -1,5 +1,6 @@
 'use client'
-import { Group, Button, Flex, Popover, Checkbox } from '@mantine/core'
+import { Group, Button, Flex, Popover, Checkbox, ScrollArea } from '@mantine/core'
+import { titles } from '../../common/types'
 import {
   IconCategory,
   IconTarget,
@@ -17,6 +18,8 @@ import { Asset } from '../../common/types';
 interface OptionButtonsProps {
   selectedRecords: Asset[],
   trigger: any,
+  columns: string[],
+  setColumns: any,
 }
 
 async function handleDelete(assets: Asset[], trigger: any) {
@@ -24,7 +27,17 @@ async function handleDelete(assets: Asset[], trigger: any) {
   trigger();
 }
 
-export default function OptionsButtonsProps({ data, selectedRecords, trigger }: OptionButtonsProps) {
+function getColumnCheckboxes() {
+  let sortedTitles = Object.keys(titles).sort();
+  let checkboxes = []
+  for (let title of sortedTitles) {
+    checkboxes.push(<Checkbox value={title} key={title} label={titles[title as keyof typeof titles]}></Checkbox>)
+  }
+
+  return checkboxes;
+}
+
+export default function OptionsButtonsProps({ selectedRecords, trigger, columns, setColumns }: OptionButtonsProps) {
 
   return (
     <Flex justify='space-between' w='100%' mb='md'>
@@ -35,17 +48,18 @@ export default function OptionsButtonsProps({ data, selectedRecords, trigger }: 
       </Group>
 
       <Group>
-        <Popover>
+        <Popover position='bottom-start'>
           <Popover.Target>
             <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconLayoutColumns size='20px' />}>Columns</Button>
           </Popover.Target>
           <Popover.Dropdown>
-            <Flex direction='column' gap='xs'>
-              <Checkbox label="Asset Number" />
-              <Checkbox label="Asset Model" />
-              <Checkbox label="Sales Invoice" />
-              <Checkbox label="Market Circle" />
-            </Flex>
+            <Checkbox.Group value={columns} onChange={setColumns}>
+              <ScrollArea h={200}>
+                <Flex direction='column' gap='xs'>
+                  {getColumnCheckboxes()}
+                </Flex>
+              </ScrollArea>
+            </Checkbox.Group>
           </Popover.Dropdown>
         </Popover>
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconUserPlus size='20px' />}>Assign</Button>

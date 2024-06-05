@@ -30,3 +30,33 @@ export interface Asset {
   employeeID: number | null,
 }
 
+export const titles = {
+  assetNum: 'Asset No.',
+  assetType: 'Asset Type',
+  assetModel: 'Asset Model',
+  specs: 'Specs',
+  bundleNum: 'Bundle No.',
+  serialNum: 'Serial No.',
+  pchOrder: 'Purchase Order',
+  salesInv: 'Sales Inv.',
+  delivRct: 'Delivery Receipt',
+  supplier: 'Supplier',
+  acqDate: 'Acq. Date',
+  warrantyDur: 'Warranty',
+  warrEndDate: 'Warr. End',
+  currency: 'Currency',
+  unitCost: 'Unit Cost',
+  pezaZone: 'PEZA Zone',
+  mktCircle: 'Market Circle',
+  class: 'Classification',
+  remarks: 'Remarks',
+  status: 'Status',
+  statEffDate: 'Status Eff.',
+  location: 'Location',
+  locRemarks: 'Location Remarks',
+  locEffDate: 'Location Eff. Date',
+  invRemarks: 'Inv. Remarks',
+  recInvDate: 'Rec. Inv.',
+  employeeID: 'User',
+}
+
