@@ -37,7 +37,7 @@ function generateColumns(columns: string[]): DataTableColumn<Asset>[] {
         columnProps.push({
           accessor: title,
           title: titles[title as keyof typeof titles],
-          render: ({ date }: { date: string }) => dayjs(date).format('MMM DD, YYYY'),
+          render: (data: Asset) => dayjs(data[title as keyof Asset]).format('MMM DD YYYY')
         })
       } else {
         columnProps.push({ accessor: title, title: titles[title as keyof typeof titles] })
@@ -49,8 +49,6 @@ function generateColumns(columns: string[]): DataTableColumn<Asset>[] {
 
   return columnProps as DataTableColumn<Asset>[];
 }
-
-
 
 export default function AssetTable({ selectedRecords, setSelectedRecords, isMutating, data, columns }: AssetTableProps) {
 

@@ -4,3 +4,7 @@
   border: 1px dashed var(--mantine-color-blue-4);
   color: var(--mantine-color-blue-4);
 }
+
+.root {
+  transition: 0.15s
+}
