@@ -1,19 +1,35 @@
 
-import { Flex, Title, Divider, Stepper } from '@mantine/core'
+import { Flex, Title, Divider } from '@mantine/core'
 
-import StepperCard from '../../../components/bundle/StepperCard';
+import BundleContainer from '../../../components/bundle/BundleContainer'
+
+function SelectParentAssetsSection() {
+  return (
+    <Title>Select Parent Assets</Title>
+  )
+}
+
+function ModifyBundleSection() {
+  return (
+    <Title>Modify Bundle</Title>
+  )
+}
+
+function EditDetailsSection() {
+  return (
+    <Title>Edit Details</Title>
+  )
+}
 
 export default function Bundle() {
-
   return (
     <Flex direction='column'>
 
       < Title lineClamp={1}>Bundle Assets</Title >
       <Divider my='md' />
 
-      <StepperCard />
+      <BundleContainer />
 
     </Flex >
-
   );
 }

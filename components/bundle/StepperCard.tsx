@@ -3,11 +3,10 @@
 import { useState } from 'react'
 import { Stepper, Paper } from '@mantine/core'
 
-export default function StepperCard() {
+export default function StepperCard({ active, setActive }: { active: number, setActive: any }) {
 
-  const [active, setActive] = useState(1);
-  const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
-  const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+  // const nextStep = () => setActive((current: number) => (current < 3 ? current + 1 : current));
+  // const prevStep = () => setActive((current: number) => (current > 0 ? current - 1 : current));
 
   return (
     <>
