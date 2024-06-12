@@ -73,7 +73,7 @@ export async function deleteAssets(assets: Asset[]) {
   revalidatePath('/');
 }
 
-export async function login(credentials: { email: string, password: string, department: string }) {
+export async function login(credentials: Record<string, any>) {
 
   const res = await fetch('https://basket-api.onrender.com/api/v1/auth/login', {
     method: 'POST',
