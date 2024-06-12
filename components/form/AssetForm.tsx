@@ -13,7 +13,6 @@ import {
   Textarea,
   createTheme
 } from '@mantine/core'
-import { ReactElement } from 'react'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import { IconCalendar, IconTableExport, IconCirclePlus } from '@tabler/icons-react'
@@ -87,8 +86,8 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
     validate: zodResolver(schema)
   });
 
-  async function handleSubmit(values: typeof form.values) {
-    const test = form.validate();
+  function handleSubmit(values: typeof form.values) {
+    form.validate();
     submitCallback(values, id);
   };
 

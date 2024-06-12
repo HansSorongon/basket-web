@@ -1,5 +1,7 @@
 'use server'
 
+import { cookies } from 'next/headers'
+
 import { Asset } from "../common/types";
 import { revalidatePath } from 'next/cache'
 
@@ -71,4 +73,28 @@ export async function deleteAssets(assets: Asset[]) {
   revalidatePath('/');
 }
 
+export async function login(credentials: { email: string, password: string, department: string }) {
+
+  const res = await fetch('https://basket-api.onrender.com/api/v1/auth/login', {
+    method: 'POST',
+    body: JSON.stringify(credentials)
+  });
+
+  if (!res.ok) {
+    console.error("Login failed!");
+    return;
+  }
+
+  console.log("Login success!");
+
+  console.log(res)
+
+  const resCookies = res.headers.get('set-cookie');
+
+  if (resCookies) {
+    const authCookie = resCookies.split(';')[0].split('=')[1];
+    cookies().set('Auth', authCookie);
+  }
+
+}
 
