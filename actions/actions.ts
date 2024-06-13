@@ -1,9 +1,14 @@
+// TODO: Add error handling here!
+//
 'use server'
+
+import { cookies } from 'next/headers'
 
 import { Asset } from "../common/types";
 import { revalidatePath } from 'next/cache'
 
-// TODO: Add error hadndling here!
+import { redirect } from 'next/navigation';
+
 export async function addAsset(value: Asset) {
 
   const data = JSON.stringify(value);
@@ -71,4 +76,46 @@ export async function deleteAssets(assets: Asset[]) {
   revalidatePath('/');
 }
 
+
+
+export async function register(credentials: Record<string, any>) {
+
+  delete credentials.confirmPassword
+
+  const res = await fetch('https://basket-api.onrender.com/api/v1/auth/register', {
+    method: 'POST',
+    body: JSON.stringify(credentials)
+  });
+
+  if (!res.ok) {
+    console.error("Register failed!");
+    return;
+  }
+
+  console.log("Register success!");
+  console.log(res)
+
+}
+
+export async function authenticate(token: string) {
+
+  const tokenJson = { 'token': token }
+
+  const res = await fetch('https://basket-api.onrender.com/api/v1/auth/verify', {
+    method: 'POST',
+    body: JSON.stringify(tokenJson)
+  })
+
+  if (res.ok) {
+    const body = await res.json();
+    return body;
+  }
+
+  return {};
+}
+
+export async function logout() {
+  cookies().delete('Auth')
+  redirect('/login')
+}
 

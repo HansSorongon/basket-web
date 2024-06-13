@@ -18,7 +18,7 @@ const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res
 export default function DataTableContainer() {
 
   const initialColumns = ['assetNum', 'assetType', 'serialNum', 'bundleNum', 'status', 'statEffDate',
-    'employeeID', 'location', 'locRemarks', 'recInvDate']
+    'employeeID', 'location', 'locRemarks', 'recInvDate', 'update']
 
   const [columns, setColumns] = useState<string[]>(initialColumns);
   const [filteredData, setFilteredData] = useState([])

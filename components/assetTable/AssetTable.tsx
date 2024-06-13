@@ -17,6 +17,8 @@ interface AssetTableProps {
   isMutating?: boolean,
   data?: Asset[]
   columns: string[],
+  pagination?: boolean,
+  emptyState?: any
 }
 
 const renderActions: DataTableColumn<Asset>['render'] = (record) => (
@@ -45,12 +47,12 @@ function generateColumns(columns: string[]): DataTableColumn<Asset>[] {
     }
   }
 
-  columnProps.push({ accessor: 'actions', title: 'Update', width: '0%', render: renderActions })
+  if (columns.includes('update')) columnProps.push({ accessor: 'actions', title: 'Update', width: '0%', render: renderActions })
 
   return columnProps as DataTableColumn<Asset>[];
 }
 
-export default function AssetTable({ selectedRecords, setSelectedRecords, isMutating, data, columns }: AssetTableProps) {
+export default function AssetTable({ selectedRecords, setSelectedRecords, isMutating, data, columns, emptyState }: AssetTableProps) {
 
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState<Asset[]>([]);
@@ -76,7 +78,8 @@ export default function AssetTable({ selectedRecords, setSelectedRecords, isMuta
         totalRecords={data ? data.length : 0}
         noRecordsText={"The basket is empty!"}
         recordsPerPage={PAGE_SIZE}
-        page={page}
+        page={page} // TODO: find a workaround to this
+        emptyState={emptyState}
         onPageChange={(p: number) => setPage(p)}
         selectedRecords={selectedRecords}
         onSelectedRecordsChange={setSelectedRecords}

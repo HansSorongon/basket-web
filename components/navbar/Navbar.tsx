@@ -1,7 +1,7 @@
 
 'use client'
 import { useState } from 'react';
-import { Group, Flex, Title, Text, Box, Image, ActionIcon } from '@mantine/core';
+import { Group, Image, Flex, Title, Text, Box, Avatar, ActionIcon, Tooltip } from '@mantine/core';
 import {
   IconTable,
   IconCirclePlus,
@@ -18,11 +18,16 @@ import { Logo } from '../../common/logo';
 import classes from './navbar.module.css';
 import { usePathname } from 'next/navigation'
 
+import { logout } from '../../actions/actions';
 import NavbarItem from './NavbarItem'
 
-export default function Navbar() {
-  const [active, setActive] = useState('');
+function handleLogout() {
+  logout();
+}
 
+export default function Navbar({ userDetails }: { userDetails: any }) {
+
+  const [active, setActive] = useState('');
   const path = usePathname();
 
   return (
@@ -34,7 +39,7 @@ export default function Navbar() {
           </Group>
           <Group className={classes.companyTag}>
             <Image radius='xl' h={20} w={20} src='pointwestLogo.png' />
-            <Text>Pointwest</Text>
+            <Text>{userDetails.company}</Text>
           </Group>
         </Box>
 
@@ -54,8 +59,8 @@ export default function Navbar() {
 
       <div>
         <NavbarItem label='Collapse' icon={<IconLayoutSidebarLeftCollapse />} active={active == 'Collapse' || false} link='/' setActive={setActive} button />
-        <NavbarItem label='Masterlist' icon={<IconHistory />} active={active == 'Recent Logs' || false} link='/' setActive={setActive} button />
-        <NavbarItem label='Masterlist' icon={<IconSettings2 />} active={active == 'Settings' || false} link='/' setActive={setActive} button />
+        <NavbarItem label='Recent Logs' icon={<IconHistory />} active={active == 'Recent Logs' || false} link='/' setActive={setActive} button />
+        <NavbarItem label='Settings' icon={<IconSettings2 />} active={active == 'Settings' || false} link='/' setActive={setActive} button />
 
         <Flex
           justify='space-between'
@@ -67,16 +72,18 @@ export default function Navbar() {
         >
 
           <Group gap='xs' justify='flex-start'>
-            <Image radius='xl' h={35} w={35} src='janthony.png' />
+            <Avatar radius='xl' />
             <Box>
-              <Text size='sm' fw={700}>Jan Anthony Murillo</Text>
-              <Text size='xs' c='var(--mantine-color-gray-8)'>jan_murillo@dlsu.edu.ph</Text>
+              <Text size='sm' fw={700}>{userDetails.username}</Text>
+              <Text size='xs' c='var(--mantine-color-gray-8)'>{userDetails.email}</Text>
             </Box>
           </Group>
 
-          <ActionIcon variant='subtle'>
-            <IconLogout className={classes.linkIcon} size='27px' />
-          </ActionIcon>
+          <Tooltip label="Log Out">
+            <ActionIcon variant='subtle' onClick={handleLogout}>
+              <IconLogout className={classes.linkIcon} size='27px' />
+            </ActionIcon>
+          </Tooltip>
 
         </Flex>
 
