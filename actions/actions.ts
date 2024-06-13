@@ -98,3 +98,22 @@ export async function login(credentials: Record<string, any>) {
 
 }
 
+export async function register(credentials: Record<string, any>) {
+
+  delete credentials.confirmPassword
+
+  const res = await fetch('https://basket-api.onrender.com/api/v1/auth/register', {
+    method: 'POST',
+    body: JSON.stringify(credentials)
+  });
+
+  if (!res.ok) {
+    console.error("Register failed!");
+    return;
+  }
+
+  console.log("Register success!");
+  console.log(res)
+
+}
+
