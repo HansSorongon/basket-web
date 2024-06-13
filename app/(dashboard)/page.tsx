@@ -1,7 +1,12 @@
-import { Flex, Title, Divider, Box, Center, Loader } from '@mantine/core'
+import { Flex, Title, Divider, Button } from '@mantine/core'
 import DataTableContainer from '../../components/DataTableContainer';
 
-export default function Bundle() {
+import { NextResponse } from 'next/server';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers'
+
+export default function View() {
+
   return (
     <Flex direction='column'>
 
