@@ -4,17 +4,16 @@ import { Text, TextInput, Button } from '@mantine/core'
 import { IconMail } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 
-import { login } from '../../actions/actions';
 import { ForgotPasswordInput } from "./PasswordInput";
 
-export function LoginForm() {
+export function LoginForm({ loginCallback }: { loginCallback: any }) {
 
   const form = useForm({
     mode: 'uncontrolled'
   });
 
   function handleSubmit(values: typeof form.values) {
-    login(values)
+    loginCallback(values)
   };
 
   function handleError() {

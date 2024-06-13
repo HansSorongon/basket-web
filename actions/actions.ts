@@ -96,6 +96,7 @@ export async function login(credentials: Record<string, any>) {
     cookies().set('Auth', authCookie);
   }
 
+  return res.status
 }
 
 export async function register(credentials: Record<string, any>) {
@@ -115,5 +116,9 @@ export async function register(credentials: Record<string, any>) {
   console.log("Register success!");
   console.log(res)
 
+}
+
+export async function verify() {
+  console.log('test');
 }
 
