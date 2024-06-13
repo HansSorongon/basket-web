@@ -2,8 +2,12 @@
 //
 'use server'
 
+import { cookies } from 'next/headers'
+
 import { Asset } from "../common/types";
 import { revalidatePath } from 'next/cache'
+
+import { redirect } from 'next/navigation';
 
 export async function addAsset(value: Asset) {
 
@@ -105,5 +109,10 @@ export async function authenticate(token: string) {
   console.log(res)
 
   return res.ok
+}
+
+export async function logout() {
+  cookies().delete('Auth')
+  redirect('/login')
 }
 

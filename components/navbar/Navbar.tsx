@@ -18,7 +18,12 @@ import { Logo } from '../../common/logo';
 import classes from './navbar.module.css';
 import { usePathname } from 'next/navigation'
 
+import { logout } from '../../actions/actions';
 import NavbarItem from './NavbarItem'
+
+function handleLogout() {
+  logout();
+}
 
 export default function Navbar() {
   const [active, setActive] = useState('');
@@ -74,7 +79,7 @@ export default function Navbar() {
             </Box>
           </Group>
 
-          <ActionIcon variant='subtle'>
+          <ActionIcon variant='subtle' onClick={handleLogout}>
             <IconLogout className={classes.linkIcon} size='27px' />
           </ActionIcon>
 
