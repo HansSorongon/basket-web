@@ -18,7 +18,7 @@ import { LoginForm } from '../../../components/auth/LoginForm'
 async function login(credentials: Record<string, any>) {
   'use server'
 
-  console.log(credentials)
+  console.log("Logging in!")
 
   const res = await fetch('https://basket-api.onrender.com/api/v1/auth/login', {
     method: 'POST',
@@ -28,7 +28,7 @@ async function login(credentials: Record<string, any>) {
 
   if (!res.ok) {
     console.error("Login failed!");
-    return;
+    return "Failed";
   }
 
   console.log("Login success!");

@@ -104,11 +104,14 @@ export async function authenticate(token: string) {
   const res = await fetch('https://basket-api.onrender.com/api/v1/auth/verify', {
     method: 'POST',
     body: JSON.stringify(tokenJson)
-  });
+  })
 
-  console.log(res)
+  if (res.ok) {
+    const body = await res.json();
+    return body;
+  }
 
-  return res.ok
+  return {};
 }
 
 export async function logout() {
