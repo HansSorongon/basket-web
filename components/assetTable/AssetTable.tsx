@@ -12,13 +12,14 @@ import { Asset } from '../../common/types';
 const PAGE_SIZE: number = 15
 
 interface AssetTableProps {
-  selectedRecords: Asset[],
-  setSelectedRecords: any, // set to any to silence the bug
+  selectedRecords?: Asset[],
+  setSelectedRecords?: any, // set to any to silence the bug
   isMutating?: boolean,
   data?: Asset[]
   columns: string[],
   pagination?: boolean,
-  emptyState?: any
+  emptyState?: any,
+  onRowClick?: any
 }
 
 const renderActions: DataTableColumn<Asset>['render'] = (record) => (
@@ -52,7 +53,7 @@ function generateColumns(columns: string[]): DataTableColumn<Asset>[] {
   return columnProps as DataTableColumn<Asset>[];
 }
 
-export default function AssetTable({ selectedRecords, setSelectedRecords, isMutating, data, columns, emptyState }: AssetTableProps) {
+export default function AssetTable({ selectedRecords, setSelectedRecords, isMutating, data, columns, emptyState, onRowClick }: AssetTableProps) {
 
   const [page, setPage] = useState(1);
   const [records, setRecords] = useState<Asset[]>([]);
@@ -82,6 +83,7 @@ export default function AssetTable({ selectedRecords, setSelectedRecords, isMuta
         emptyState={emptyState}
         onPageChange={(p: number) => setPage(p)}
         selectedRecords={selectedRecords}
+        onRowClick={onRowClick}
         onSelectedRecordsChange={setSelectedRecords}
         fetching={!data || isMutating ? true : false}
         pinLastColumn

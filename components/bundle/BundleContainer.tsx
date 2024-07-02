@@ -3,20 +3,35 @@
 import { useState } from 'react'
 import {
   Box,
+  Button
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-
-import StepperCard from './StepperCard';
+import useSWR from 'swr';
 import { zodResolver } from 'mantine-form-zod-resolver'
 import { z } from 'zod'
 
+import StepperCard from './StepperCard';
 import { SelectSection } from './bundleSections/SelectSection'
 import { ModifySection } from './bundleSections/ModifySection'
 import { EditSection } from './bundleSections/EditSection';
 
+import { Asset } from '../../common/types';
+
 const schema = z.object({})
 
+const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res.json());
+
+
 export default function BundleContainer() {
+
+  const { data } = useSWR(
+    'https://basket-api.onrender.com/api/v1/assets',
+    fetcher,
+    {
+      onError: (error) => {
+        console.error('Failed to fetch resource: ', error);
+      }
+    })
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -24,6 +39,7 @@ export default function BundleContainer() {
   });
 
   const [active, setActive] = useState(0);
+  const [parentAsset, setParentAsset] = useState({})
 
   return (
     <>
@@ -33,12 +49,12 @@ export default function BundleContainer() {
 
         {
           active == 0 &&
-          SelectSection()
+          SelectSection(data, (data: any) => { setParentAsset(data.record), setActive(1) })
         }
 
         {
           active == 1 &&
-          ModifySection()
+          ModifySection(parentAsset as Asset)
         }
 
         {
@@ -47,7 +63,6 @@ export default function BundleContainer() {
         }
 
       </Box>
-
     </>
   )
 }

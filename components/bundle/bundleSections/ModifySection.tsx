@@ -1,16 +1,23 @@
 'use client'
 
-import { Title, Group, Button, Box } from '@mantine/core'
+import { Title, Group, Button, Box, Checkbox } from '@mantine/core'
+import { DataTable } from 'mantine-datatable';
 import AssetTable from '../../assetTable/AssetTable'
 
 import { IconCircleMinus, IconSearch, IconPlus, IconX } from '@tabler/icons-react'
 
-export function ModifySection() {
+import { Asset } from '../../../common/types'
+
+export function ModifySection(parentAsset: Asset) {
+
+  const initialColumns = ['assetNum', 'assetType', 'assetModel', 'serialNum', 'bundleNum', 'status', 'statEffDate',
+    'employeeID', 'location', 'locRemarks', 'recInvDate']
+
   return (
     <>
       <Title order={3} mb='xs'>Parent Asset</Title>
-      <Box h='9vh' mb='md'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} emptyState={<></>} />
+      <Box mb='md'>
+        <AssetTable columns={initialColumns} data={[parentAsset]} />
       </Box>
 
       <Group justify='space-between'>
@@ -34,7 +41,7 @@ export function ModifySection() {
       </Group>
 
       <Box h='20vh' mb='md'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} />
+        <AssetTable columns={[]} data={[]} />
       </Box>
     </>
   )

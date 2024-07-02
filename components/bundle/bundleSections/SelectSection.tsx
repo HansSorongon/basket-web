@@ -2,12 +2,16 @@
 
 import { Title, Divider, Flex, TextInput, Group, Button, Box } from '@mantine/core'
 
-
 import AssetTable from '../../assetTable/AssetTable'
+import { Asset } from '../../../common/types'
 
 import { IconFilter, IconSearch, IconLayoutColumns, IconChevronDown } from '@tabler/icons-react'
 
-export function SelectSection() {
+export function SelectSection(data: Asset[], rowClickCallback: any) {
+
+  const initialColumns = ['assetNum', 'assetType', 'assetModel', 'serialNum', 'bundleNum', 'status', 'statEffDate',
+    'employeeID', 'location', 'locRemarks', 'recInvDate']
+
   return (
     <>
       <Title order={3} mb='xs'>Select Parent Assets</Title>
@@ -33,8 +37,9 @@ export function SelectSection() {
       </Flex>
 
       <Box h='40vh'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} />
+        <AssetTable columns={initialColumns} data={data} onRowClick={rowClickCallback} />
       </Box>
+
 
     </>
   )
