@@ -5,7 +5,6 @@ import {
   Box,
   Button
 } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import { useForm } from '@mantine/form'
 import useSWR from 'swr'
 import { zodResolver } from 'mantine-form-zod-resolver'
@@ -19,8 +18,7 @@ import { Asset } from '../../common/types'
 
 const schema = z.object({})
 
-const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res.json())
-
+const fetcher = (url: string) => fetch(url, { method: 'GET', cache: 'no-store' }).then((res) => res.json())
 
 export default function BundleContainer() {
 

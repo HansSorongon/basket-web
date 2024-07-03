@@ -31,9 +31,6 @@ export default function SelectSection({ data, rowClickCallback }: { data: Asset[
           >
             Adv. Filters
           </Button>
-          <Button variant='filled'>
-            Assign as Parent
-          </Button>
         </Group>
       </Flex>
 
