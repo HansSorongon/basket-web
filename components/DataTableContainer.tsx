@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
-import { Box } from '@mantine/core'
+import { Box, Button } from '@mantine/core'
 import useSWR from 'swr';
 
 import useSWRMutation from 'swr/mutation'
@@ -77,18 +77,4 @@ export default function DataTableContainer() {
   )
 }
 
-//           { accessor: 'location', title: 'Location' },
-//           { accessor: 'locRemarks', title: 'Location Remarks' },
-//           {
-//             accessor: 'recInvDate',
-//             title: 'Last Inventory',
-//             render: ({ recInvDate }) => dayjs(recInvDate).format('MMM DD, YYYY'),
-//           },
-//
-//           {
-//             accessor: 'actions',
-//             title: 'Update',
-//             width: '0%',
-//             render: renderActions,
-//           }
-//         ]
+
