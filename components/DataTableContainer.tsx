@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
-import { Box } from '@mantine/core'
+import { Box, Button } from '@mantine/core'
 import useSWR from 'swr';
 
 import useSWRMutation from 'swr/mutation'

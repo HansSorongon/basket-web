@@ -119,3 +119,19 @@ export async function logout() {
   redirect('/login')
 }
 
+export async function getBundle(id: number) {
+
+  const url = 'https://basket-api.onrender.com/api/v1/bundles/' + id
+  const res = await fetch(url, {
+    method: 'GET',
+  });
+
+  if (res.ok) {
+    const body = await res.json()
+
+    return body
+  }
+
+}
+
+
