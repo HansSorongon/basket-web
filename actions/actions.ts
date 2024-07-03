@@ -118,19 +118,9 @@ export async function logout() {
   cookies().delete('Auth')
   redirect('/login')
 }
+export async function unbundleAssets(bundleId: number, assetIds: number[]) {
 
-export async function getBundle(id: number) {
-
-  const url = 'https://basket-api.onrender.com/api/v1/bundles/' + id
-  const res = await fetch(url, {
-    method: 'GET',
-  });
-
-  if (res.ok) {
-    const body = await res.json()
-
-    return body
-  }
+  console.log('test')
 
 }
 
