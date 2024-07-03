@@ -118,10 +118,19 @@ export async function logout() {
   cookies().delete('Auth')
   redirect('/login')
 }
+
 export async function unbundleAssets(bundleId: number, assetIds: number[]) {
 
-  console.log('test')
+  const url = 'https://basket-api.onrender.com/api/v1/bundles/removeFrom/' + bundleId
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    body: JSON.stringify({ 'assetIDs': assetIds })
+  })
+
+  if (res.ok) {
+    console.log("Successfully unbundled assets.")
+  }
 
 }
-
 

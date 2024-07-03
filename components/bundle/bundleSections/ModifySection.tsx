@@ -27,11 +27,10 @@ export default function ModifySection({ parentAsset, assetData }:
   const url = 'https://basket-api.onrender.com/api/v1/bundles/' + parentAsset.bundleParentID
   const { trigger, isMutating } = useSWRMutation(url, fetcher)
 
-  async function handleDelete(bundleId: number, assetIds: number[]) {
+  async function handleUnbundle(bundleId: number, assetIds: number[]) {
     await unbundleAssets(bundleId, assetIds);
     trigger();
   }
-
 
   const { data } = useSWR(
     url,
@@ -63,7 +62,7 @@ export default function ModifySection({ parentAsset, assetData }:
       <Group justify='space-between'>
         <Title order={3} mb='xs'>Currently Bundled Assets</Title>
 
-        <Button variant='filled' color='red' mb='xs' leftSection={<IconCircleMinus size={20} />}>Unbundle Selected</Button>
+        <Button onClick={() => handleUnbundle(parentAsset.bundleParentID, Object.values(selectedRecordsCurr).map(item => item.id))} variant='filled' color='red' mb='xs' leftSection={<IconCircleMinus size={20} />}>Unbundle Selected</Button>
       </Group>
 
       <Box h='20vh' mb='md'>
