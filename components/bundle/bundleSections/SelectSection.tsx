@@ -39,8 +39,6 @@ export function SelectSection(data: Asset[], rowClickCallback: any) {
       <Box h='40vh'>
         <AssetTable columns={initialColumns} data={data} onRowClick={rowClickCallback} />
       </Box>
-
-
     </>
   )
 }
