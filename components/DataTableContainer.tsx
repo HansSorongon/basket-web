@@ -2,16 +2,16 @@
 
 import dayjs from 'dayjs'
 import { useState, useEffect } from 'react'
-import { Box } from '@mantine/core'
+import { Box, Button } from '@mantine/core'
 import useSWR from 'swr';
-
 import useSWRMutation from 'swr/mutation'
 
 import AssetTable from './assetTable/AssetTable';
 import OptionButtons from './options/OptionButtons'
 import FilterButtons from './filter/FilterButtons';
-
 import { Asset } from '../common/types';
+
+import { IconTableExport } from '@tabler/icons-react'
 
 const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res.json());
 
@@ -23,6 +23,7 @@ export default function DataTableContainer() {
   const [columns, setColumns] = useState<string[]>(initialColumns);
   const [filteredData, setFilteredData] = useState([])
   const [selectedRecords, setSelectedRecords] = useState<Asset[]>([])
+
   const { trigger, isMutating } = useSWRMutation('https://basket-api.onrender.com/api/v1/assets', fetcher)
 
   const { data } = useSWR(
@@ -62,7 +63,9 @@ export default function DataTableContainer() {
 
   return (
     <Box>
-      <FilterButtons applyFilter={applyFilter} />
+      <FilterButtons applyFilter={applyFilter} >
+        <Button variant='filled' leftSection={<IconTableExport size='20px' />}>Export</Button>
+      </FilterButtons>
       <OptionButtons selectedRecords={selectedRecords} trigger={trigger} columns={columns} setColumns={setColumns} />
       <Box h='65vh'>
         <AssetTable
@@ -77,18 +80,4 @@ export default function DataTableContainer() {
   )
 }
 
-//           { accessor: 'location', title: 'Location' },
-//           { accessor: 'locRemarks', title: 'Location Remarks' },
-//           {
-//             accessor: 'recInvDate',
-//             title: 'Last Inventory',
-//             render: ({ recInvDate }) => dayjs(recInvDate).format('MMM DD, YYYY'),
-//           },
-//
-//           {
-//             accessor: 'actions',
-//             title: 'Update',
-//             width: '0%',
-//             render: renderActions,
-//           }
-//         ]
+

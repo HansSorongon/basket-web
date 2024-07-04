@@ -12,8 +12,10 @@ import {
   IconTrash
 } from '@tabler/icons-react'
 
+
 import classes from './optionButtons.module.css'
 
+import ColumnButton from '../buttons/ColumnButton'
 import { deleteAssets } from '../../actions/actions'
 import { Asset } from '../../common/types';
 
@@ -29,16 +31,6 @@ async function handleDelete(assets: Asset[], trigger: any) {
   trigger();
 }
 
-function getColumnCheckboxes() {
-  let sortedTitles = Object.keys(titles).sort();
-  let checkboxes = []
-  for (let title of sortedTitles) {
-    checkboxes.push(<Checkbox value={title} key={title} label={titles[title as keyof typeof titles]}></Checkbox>)
-  }
-
-  return checkboxes;
-}
-
 export default function OptionsButtonsProps({ selectedRecords, trigger, columns, setColumns }: OptionButtonsProps) {
 
   return (
@@ -50,20 +42,7 @@ export default function OptionsButtonsProps({ selectedRecords, trigger, columns,
       </Group>
 
       <Group>
-        <Popover position='bottom-start'>
-          <Popover.Target>
-            <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconLayoutColumns size='20px' />}>Columns</Button>
-          </Popover.Target>
-          <Popover.Dropdown>
-            <Checkbox.Group value={columns} onChange={setColumns}>
-              <ScrollArea h={200}>
-                <Flex direction='column' gap='xs'>
-                  {getColumnCheckboxes()}
-                </Flex>
-              </ScrollArea>
-            </Checkbox.Group>
-          </Popover.Dropdown>
-        </Popover>
+        <ColumnButton columns={columns} setColumns={setColumns} />
         <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconUserPlus size='20px' />}>Assign</Button>
         <Button classNames={{ root: classes.root }} disabled={selectedRecords.length > 0 ? false : true} variant='filled' color='var(--mantine-color-red-6)' leftSection={<IconTrash size='20px' />} onClick={() => handleDelete(selectedRecords, trigger)}>Delete</Button>
       </Group>

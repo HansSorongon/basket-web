@@ -3,110 +3,51 @@
 import { useState } from 'react'
 import {
   Box,
-  Title,
-  Divider,
-  TextInput,
-  Flex,
-  Group,
   Button
 } from '@mantine/core'
-import StepperCard from './StepperCard';
-import {
-  IconSearch,
-  IconChevronDown,
-  IconFilter,
-  IconLayoutColumns,
-  IconCircleMinus,
-  IconPlus,
-  IconX
-} from '@tabler/icons-react';
+import { useForm } from '@mantine/form'
+import useSWR from 'swr'
+import { zodResolver } from 'mantine-form-zod-resolver'
+import { z } from 'zod'
 
-import AssetTable from '../assetTable/AssetTable';
+import StepperCard from './StepperCard'
+import SelectSection from './bundleSections/SelectSection'
+import ModifySection from './bundleSections/ModifySection'
+import EditSection from './bundleSections/EditSection'
+import { Asset } from '../../common/types'
 
-function SelectSection() {
-  return (
-    <>
-      <Title order={3} mb='xs'>Select Parent Assets</Title>
-      <Divider mb='md' />
+const schema = z.object({})
 
-      <Flex justify='space-between' mb='md'>
-        <TextInput leftSection={<IconSearch size='20px' />} placeholder='Search by Asset No.' onChange={() => console.log("PLACEHOLDER")} />
-
-        <Group>
-          <Button variant='light' color='rgba(0, 0, 0, 1)' leftSection={<IconLayoutColumns size='20px' />}>Columns</Button>
-          <Button
-            variant='outline'
-            leftSection={<IconFilter size='20px' />}
-            rightSection={<IconChevronDown size='20px' />}
-            onClick={() => console.log("PLACEHOLDER")}
-          >
-            Adv. Filters
-          </Button>
-          <Button variant='filled'>
-            Assign as Parent
-          </Button>
-        </Group>
-      </Flex>
-
-      <Box h='40vh'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} />
-      </Box>
-
-    </>
-  )
-}
-
-function ModifySection() {
-  return (
-    <>
-      <Title order={3} mb='xs'>Parent Asset</Title>
-      <Box h='9vh' mb='md'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} emptyState={<></>} />
-      </Box>
-
-      <Group justify='space-between'>
-        <Title order={3} mb='xs'>Currently Bundled Assets</Title>
-
-        <Button variant='filled' color='red' mb='xs' leftSection={<IconCircleMinus size={20} />}>Unbundle Selected</Button>
-      </Group>
-
-      <Box h='20vh' mb='md'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} />
-      </Box>
-
-      <Group justify='space-between'>
-        <Title order={3} mb='xs'>Add Assets Queue</Title>
-
-        <Group>
-          <Button variant='filled' color='red' mb='xs' leftSection={<IconX size={20} />}>Remove</Button>
-          <Button variant='filled' mb='xs' leftSection={<IconSearch size={20} />}>Add to Queue</Button>
-          <Button variant='filled' mb='xs' leftSection={<IconPlus size={20} />}>Add to Queue</Button>
-        </Group>
-      </Group>
-
-      <Box h='20vh' mb='md'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} />
-      </Box>
-    </>
-  )
-}
-
-function EditSection() {
-  return (
-    <>
-      <Title order={3} mb='xs'>Current Details</Title>
-      <Box h='18vh' mb='md'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} />
-      </Box>
-      <Title order={3} mb='xs'>Update Details</Title>
-
-    </>
-  )
-}
+const fetcher = (url: string) => fetch(url, { method: 'GET', cache: 'no-store' }).then((res) => res.json())
 
 export default function BundleContainer() {
 
-  const [active, setActive] = useState(0);
+  const { data } = useSWR(
+    'https://basket-api.onrender.com/api/v1/assets',
+    fetcher,
+    {
+      onError: (error) => {
+        console.error('Failed to fetch resource: ', error)
+      }
+    })
+
+  const form = useForm({
+    mode: 'uncontrolled',
+    validate: zodResolver(schema)
+  })
+
+  const [active, setActive] = useState(0)
+  const [parentAsset, setParentAsset] = useState({})
+  const [bundleData, setBundleData] = useState<any>([]) // TODO: make an interface for this
+
+  // modify section
+  const initialColumns = ['assetNum', 'assetType', 'serialNum', 'bundleNum', 'status', 'statEffDate',
+    'employeeID', 'location', 'locRemarks', 'recInvDate', 'update']
+
+  async function selectParent(parentData: Asset) {
+    setParentAsset(parentData)
+    setActive(1)
+  }
 
   return (
     <>
@@ -116,21 +57,20 @@ export default function BundleContainer() {
 
         {
           active == 0 &&
-          SelectSection()
+          <SelectSection data={data} rowClickCallback={(data: any) => { selectParent(data.record as Asset) }} />
         }
 
         {
           active == 1 &&
-          ModifySection()
+          <ModifySection parentAsset={parentAsset as Asset} assetData={data as Asset[]} />
         }
 
         {
           active == 2 &&
-          EditSection()
+          <EditSection form={form} />
         }
 
       </Box>
-
     </>
   )
 }
