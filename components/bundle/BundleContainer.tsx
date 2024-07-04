@@ -5,22 +5,20 @@ import {
   Box,
   Button
 } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import { useForm } from '@mantine/form'
 import useSWR from 'swr'
 import { zodResolver } from 'mantine-form-zod-resolver'
 import { z } from 'zod'
 
 import StepperCard from './StepperCard'
-import { SelectSection } from './bundleSections/SelectSection'
-import { ModifySection } from './bundleSections/ModifySection'
-import { EditSection } from './bundleSections/EditSection'
+import SelectSection from './bundleSections/SelectSection'
+import ModifySection from './bundleSections/ModifySection'
+import EditSection from './bundleSections/EditSection'
 import { Asset } from '../../common/types'
-import { getBundle } from '../../actions/actions'
 
 const schema = z.object({})
 
-const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res.json())
+const fetcher = (url: string) => fetch(url, { method: 'GET', cache: 'no-store' }).then((res) => res.json())
 
 export default function BundleContainer() {
 
@@ -43,17 +41,12 @@ export default function BundleContainer() {
   const [bundleData, setBundleData] = useState<any>([]) // TODO: make an interface for this
 
   // modify section
-  const [selectedRecordsCurr, setSelectedRecordsCurr] = useState<Asset[]>([])
-  const [opened, queueModalFuncs] = useDisclosure(false);
+  const initialColumns = ['assetNum', 'assetType', 'serialNum', 'bundleNum', 'status', 'statEffDate',
+    'employeeID', 'location', 'locRemarks', 'recInvDate', 'update']
 
   async function selectParent(parentData: Asset) {
     setParentAsset(parentData)
     setActive(1)
-
-    const bundleData = await getBundle(parentData.bundleParentID)
-    setBundleData(bundleData)
-
-    opened
   }
 
   return (
@@ -64,25 +57,17 @@ export default function BundleContainer() {
 
         {
           active == 0 &&
-          SelectSection(data, (data: any) => { selectParent(data.record as Asset) })
+          <SelectSection data={data} rowClickCallback={(data: any) => { selectParent(data.record as Asset) }} />
         }
 
         {
           active == 1 &&
-          ModifySection(
-            parentAsset as Asset,
-            bundleData ? bundleData['Assets'] : [],
-            selectedRecordsCurr,
-            setSelectedRecordsCurr,
-            opened,
-            queueModalFuncs.open,
-            queueModalFuncs.close
-          )
+          <ModifySection parentAsset={parentAsset as Asset} assetData={data as Asset[]} />
         }
 
         {
           active == 2 &&
-          EditSection(form)
+          <EditSection form={form} />
         }
 
       </Box>

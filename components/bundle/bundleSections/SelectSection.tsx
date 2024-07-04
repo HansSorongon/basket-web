@@ -7,7 +7,8 @@ import { Asset } from '../../../common/types'
 
 import { IconFilter, IconSearch, IconLayoutColumns, IconChevronDown } from '@tabler/icons-react'
 
-export function SelectSection(data: Asset[], rowClickCallback: any) {
+export default function SelectSection({ data, rowClickCallback }: { data: Asset[], rowClickCallback: any }
+) {
 
   const initialColumns = ['assetNum', 'assetType', 'assetModel', 'serialNum', 'bundleNum', 'status', 'statEffDate',
     'employeeID', 'location', 'locRemarks', 'recInvDate']
@@ -29,9 +30,6 @@ export function SelectSection(data: Asset[], rowClickCallback: any) {
             onClick={() => console.log("PLACEHOLDER")}
           >
             Adv. Filters
-          </Button>
-          <Button variant='filled'>
-            Assign as Parent
           </Button>
         </Group>
       </Flex>

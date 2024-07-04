@@ -29,7 +29,7 @@ const inputSectionTheme = createTheme({
   },
 })
 
-export function EditSection(form: UseFormReturnType<any>) {
+export default function EditSection({ form }: { form: UseFormReturnType<any> }) {
 
   return (
     <>

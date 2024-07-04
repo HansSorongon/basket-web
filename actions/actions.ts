@@ -119,19 +119,51 @@ export async function logout() {
   redirect('/login')
 }
 
-export async function getBundle(id: number) {
+export async function unbundleAssets(bundleId: number, assetIds: number[]) {
 
-  const url = 'https://basket-api.onrender.com/api/v1/bundles/' + id
+  const url = 'https://basket-api.onrender.com/api/v1/bundles/removeFrom/' + bundleId
+
   const res = await fetch(url, {
-    method: 'GET',
-  });
+    method: 'PUT',
+    body: JSON.stringify({ 'assetIDs': assetIds })
+  })
 
   if (res.ok) {
-    const body = await res.json()
-
-    return body
+    console.log("Successfully unbundled assets.")
   }
 
 }
 
+export async function bundleAssets(bundleId: number, assetIds: number[]) {
 
+  console.log("Attempting to bundle assets...")
+
+  const url = 'https://basket-api.onrender.com/api/v1/bundles/addTo/' + bundleId
+
+  const res = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ 'assetIDs': assetIds })
+  })
+
+  if (res.ok) {
+    console.log("Successfully bundled assets.")
+  }
+
+}
+
+export async function createBundle(id: number) {
+
+  const url = 'https://basket-api.onrender.com/api/v1/bundles'
+
+  const res = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({ 'id': id })
+  })
+
+  if (res.ok) {
+    const body = await res.json()
+    return body['id']
+  }
+
+  return null
+}
