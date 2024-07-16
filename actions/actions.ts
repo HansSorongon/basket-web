@@ -93,8 +93,7 @@ export async function register(credentials: Record<string, any>) {
   }
 
   console.log("Register success!");
-  console.log(res)
-
+  redirect('/login')
 }
 
 export async function authenticate(token: string) {
@@ -166,4 +165,23 @@ export async function createBundle(id: number) {
   }
 
   return null
+}
+
+export async function updateBundle(values: any, id: number) {
+
+  console.log(values)
+
+  const url = 'https://basket-api.onrender.com/api/v1/bundles/' + id
+
+  const res = await fetch(url, {
+    method: 'PUT',
+    body: JSON.stringify(values)
+  })
+
+  if (res.ok) {
+    console.log('Updated bundle details!')
+    return
+  }
+
+  console.log('Updating failed!')
 }

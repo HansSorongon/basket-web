@@ -25,6 +25,7 @@ async function login(credentials: Record<string, any>) {
     body: JSON.stringify(credentials)
   });
 
+  console.log(res)
 
   if (!res.ok) {
     console.error("Login failed!");
