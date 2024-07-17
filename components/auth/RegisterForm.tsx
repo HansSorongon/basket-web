@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 import { useForm } from '@mantine/form';
@@ -27,6 +28,9 @@ const schema = z.object({
 );
 
 export default function RegisterForm() {
+
+  const [loading, setLoading] = useState(false)
+
 
   const form = useForm({
     mode: 'uncontrolled',

@@ -23,7 +23,7 @@ const fetcher = (url: string) => fetch(url, { method: 'GET', cache: 'no-store' }
     if (!res.ok) {
       return "NO_BUNDLE"
     }
-    return res.json();
+    return res.json() ?? null;
   })
 
 export default function ModifySection({ parentAsset, assetData }:
@@ -36,12 +36,14 @@ export default function ModifySection({ parentAsset, assetData }:
   const initialColumns = ['assetNum', 'assetType', 'assetModel', 'serialNum', 'bundleNum', 'status', 'statEffDate',
     'employeeID', 'location', 'locRemarks', 'recInvDate']
 
-
   const [bundleData, setBundleData] = useState<any>([])
   const [parentBundleId, setParentBundleId] = useState<number | null>(null)
 
   const url = 'https://basket-api.onrender.com/api/v1/bundles/' + parentBundleId
+
   const { trigger, isMutating } = useSWRMutation(url, fetcher)
+
+  console.log(url)
 
   const { data } = useSWR(
     () => parentAsset.bundleParentID ? url : null,
