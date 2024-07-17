@@ -5,9 +5,7 @@ import {
   Box,
   Button
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
 import useSWR from 'swr'
-import { zodResolver } from 'mantine-form-zod-resolver'
 import { z } from 'zod'
 
 import StepperCard from './StepperCard'
@@ -30,11 +28,6 @@ export default function BundleContainer() {
         console.error('Failed to fetch resource: ', error)
       }
     })
-
-  const form = useForm({
-    mode: 'uncontrolled',
-    validate: zodResolver(schema)
-  })
 
   const [active, setActive] = useState(0)
   const [parentAsset, setParentAsset] = useState({})
@@ -67,7 +60,7 @@ export default function BundleContainer() {
 
         {
           active == 2 &&
-          <EditSection form={form} />
+          <EditSection parentAsset={parentAsset as Asset} />
         }
 
       </Box>

@@ -38,8 +38,7 @@ export default function Navbar({ userDetails }: { userDetails: any }) {
             <Logo />
           </Group>
           <Group className={classes.companyTag}>
-            <Image radius='xl' h={20} w={20} src='pointwestLogo.png' />
-            <Text>{userDetails.company}</Text>
+            <Text>{userDetails.department}</Text>
           </Group>
         </Box>
 
@@ -74,7 +73,7 @@ export default function Navbar({ userDetails }: { userDetails: any }) {
           <Group gap='xs' justify='flex-start'>
             <Avatar radius='xl' />
             <Box>
-              <Text size='sm' fw={700}>{userDetails.username}</Text>
+              <Text size='sm' fw={700}>{userDetails.firstName + ' ' + userDetails.lastName}</Text>
               <Text size='xs' c='var(--mantine-color-gray-8)'>{userDetails.email}</Text>
             </Box>
           </Group>
