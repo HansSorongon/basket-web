@@ -1,5 +1,3 @@
-// TODO: Add error handling here!
-//
 'use server'
 
 import { cookies } from 'next/headers'

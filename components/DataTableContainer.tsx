@@ -77,18 +77,3 @@ export default function DataTableContainer() {
   )
 }
 
-//           { accessor: 'location', title: 'Location' },
-//           { accessor: 'locRemarks', title: 'Location Remarks' },
-//           {
-//             accessor: 'recInvDate',
-//             title: 'Last Inventory',
-//             render: ({ recInvDate }) => dayjs(recInvDate).format('MMM DD, YYYY'),
-//           },
-//
-//           {
-//             accessor: 'actions',
-//             title: 'Update',
-//             width: '0%',
-//             render: renderActions,
-//           }
-//         ]
