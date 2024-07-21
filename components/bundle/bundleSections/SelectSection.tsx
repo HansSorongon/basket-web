@@ -2,12 +2,17 @@
 
 import { Title, Divider, Flex, TextInput, Group, Button, Box } from '@mantine/core'
 
-
 import AssetTable from '../../assetTable/AssetTable'
+import { Asset } from '../../../common/types'
 
 import { IconFilter, IconSearch, IconLayoutColumns, IconChevronDown } from '@tabler/icons-react'
 
-export function SelectSection() {
+export default function SelectSection({ data, rowClickCallback }: { data: Asset[], rowClickCallback: any }
+) {
+
+  const initialColumns = ['assetNum', 'assetType', 'assetModel', 'serialNum', 'bundleNum', 'status', 'statEffDate',
+    'employeeID', 'location', 'locRemarks', 'recInvDate']
+
   return (
     <>
       <Title order={3} mb='xs'>Select Parent Assets</Title>
@@ -26,16 +31,12 @@ export function SelectSection() {
           >
             Adv. Filters
           </Button>
-          <Button variant='filled'>
-            Assign as Parent
-          </Button>
         </Group>
       </Flex>
 
       <Box h='40vh'>
-        <AssetTable selectedRecords={[]} setSelectedRecords={() => console.log("(N)")} columns={[]} data={[]} />
+        <AssetTable columns={initialColumns} data={data} onRowClick={rowClickCallback} />
       </Box>
-
     </>
   )
 }

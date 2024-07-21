@@ -36,7 +36,7 @@ const dropSectionTheme = createTheme({
   },
 });
 
-export default function FilterButtons({ applyFilter }: { applyFilter: any }) {
+export default function FilterButtons({ applyFilter, children }: { applyFilter: any, children: React.ReactElement | React.ReactElement[] }) {
 
   const [opened, { toggle }] = useDisclosure(false);
   const form = useForm({
@@ -70,7 +70,7 @@ export default function FilterButtons({ applyFilter }: { applyFilter: any }) {
             >
               All Filters
             </Button>
-            <Button variant='filled' leftSection={<IconTableExport size='20px' />}>Export</Button>
+            {children}
           </Group>
         </Flex>
 
