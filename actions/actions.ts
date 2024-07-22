@@ -67,13 +67,42 @@ export async function deleteAssets(assets: Asset[]) {
   const encodedString = encodeURIComponent(JSON.stringify({ ids: assetIds }))
   const fullUrl = baseUrl + encodedString;
 
+
   const res = await fetch(fullUrl, {
     method: 'DELETE',
+    cache: 'no-store'
   });
+
+  if (res.ok) {
+    console.log('Deleted assets.')
+  }
 
   revalidatePath('/');
 }
 
+export async function deleteParams(paramType: string, paramIds: number[]) {
+
+  console.log("Deleting params...")
+  console.log(paramType)
+  console.log(paramIds)
+
+  const baseUrl = 'https://basket-api.onrender.com/api/v1/maintenance/' + paramType + '?toDelete='
+  const encodedString = encodeURIComponent(JSON.stringify({ ids: paramIds }))
+  const fullUrl = baseUrl + encodedString
+
+  console.log(fullUrl)
+
+  const res = await fetch(fullUrl, {
+    method: 'DELETE',
+    cache: 'no-store'
+  });
+
+  if (res.ok) {
+    console.log('Deleted params.')
+  }
+
+  revalidatePath('/dataMaintenance');
+}
 
 
 export async function register(credentials: Record<string, any>) {

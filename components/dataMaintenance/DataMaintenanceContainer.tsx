@@ -4,8 +4,9 @@ import useSWRMutation from 'swr/mutation';
 import { useState, useEffect } from 'react'
 import { Tabs, Flex, Box, Title, Text, TextInput, Button, Paper, ActionIcon } from '@mantine/core'
 import { DataTable, DataTableColumn } from 'mantine-datatable';
-
 import { IconCirclePlus, IconTrash, IconEdit } from '@tabler/icons-react'
+
+import { deleteParams } from '../../actions/actions';
 
 const paramMap: { [key: string]: string } = {
   'Asset Type': 'asset-type',
@@ -18,11 +19,9 @@ const paramMap: { [key: string]: string } = {
   'Location': 'location'
 }
 
-
-const fetcher = (url: string) => fetch(url, { method: 'GET' }).then((res) => res.json());
+const fetcher = (url: string) => fetch(url, { method: 'GET', cache: 'no-store' }).then((res) => res.json());
 
 export default function DataMaintenanceContainer() {
-
 
   const [paramData, setParamData] = useState([])
   const [tab, setTab] = useState('Asset Type')
@@ -35,6 +34,15 @@ export default function DataMaintenanceContainer() {
       setParamData(data)
     }
   })
+
+  async function handleDelete(tab: string, paramIds: number[]) {
+
+    await deleteParams(paramMap[tab], paramIds)
+    console.log(paramIds)
+    trigger()
+
+    setSelectedRecords([])
+  }
 
   const { data } = useSWR(
     'https://basket-api.onrender.com/api/v1/maintenance/' + paramMap['Asset Type'],
@@ -71,79 +79,78 @@ export default function DataMaintenanceContainer() {
   }, [tab])
 
   return (
-    <>
+    <Flex justify='center'>
 
-      <Flex h='80vh' m='xl'>
+      <Flex h='80vh' m='xl' w='60%' justify='space-around'>
 
-        <Box>
-          <Tabs defaultValue='Asset Type' orientation='vertical' h='100%' onChange={(tabName: any) => { handleChange(tabName) }}>
+        <Tabs defaultValue='Asset Type' orientation='vertical' h='100%' onChange={(tabName: any) => { handleChange(tabName), setSelectedRecords([]) }}>
 
-            <Tabs.List>
-              <Tabs.Tab value='Asset Type'>Asset Type</Tabs.Tab>
-              <Tabs.Tab value='Supplier'>Supplier</Tabs.Tab>
-              <Tabs.Tab value='Currency'>Currency</Tabs.Tab>
-              <Tabs.Tab value='PEZA Zone'>PEZA Zone</Tabs.Tab>
-              <Tabs.Tab value='Classification'>Classification</Tabs.Tab>
-              <Tabs.Tab value='Department'>Department</Tabs.Tab>
-              <Tabs.Tab value='Status'>Status</Tabs.Tab>
-              <Tabs.Tab value='Location'>Location</Tabs.Tab>
-            </Tabs.List>
+          <Tabs.List>
+            <Tabs.Tab value='Asset Type'>Asset Type</Tabs.Tab>
+            <Tabs.Tab value='Supplier'>Supplier</Tabs.Tab>
+            <Tabs.Tab value='Currency'>Currency</Tabs.Tab>
+            <Tabs.Tab value='PEZA Zone'>PEZA Zone</Tabs.Tab>
+            <Tabs.Tab value='Classification'>Classification</Tabs.Tab>
+            <Tabs.Tab value='Department'>Department</Tabs.Tab>
+            <Tabs.Tab value='Status'>Status</Tabs.Tab>
+            <Tabs.Tab value='Location'>Location</Tabs.Tab>
+          </Tabs.List>
 
-            <Flex m='md' direction='column'>
-              <Box p='md' bg='var(--mantine-color-gray-0)' mb='xs'>
-                <Title order={2}>Add Asset Type</Title>
-                <Text>Add a new entry to the table</Text>
+        </Tabs>
 
-                <TextInput
-                  label={tab}
-                  value={value}
-                  onChange={(event) => setValue(event.currentTarget.value)}>
-                </TextInput>
+        <Flex direction='column' justify='center' w='30%'>
+          <Box p='md' bg='var(--mantine-color-gray-0)' mb='xs'>
+            <Title order={2}>Add Asset Type</Title>
+            <Text>Add a new entry to the table</Text>
 
-              </Box>
+            <TextInput
+              label={tab}
+              value={value}
+              onChange={(event) => setValue(event.currentTarget.value)}>
+            </TextInput>
 
-              <Button mb='xs' leftSection={<IconCirclePlus />} onClick={handleAdd}>Add</Button>
-              <Button bg='red' leftSection={<IconTrash />} onClick={() => console.log(selectedRecords)}>Delete</Button>
-            </Flex>
+          </Box>
 
-            <Paper p='md' withBorder radius='md'>
-              <Title order={2} mb='sm'>Current Entries</Title>
+          <Button mb='xs' leftSection={<IconCirclePlus />} onClick={handleAdd}>Add</Button>
+          <Button bg='red' leftSection={<IconTrash />} onClick={() => handleDelete(tab, selectedRecords.map((item: { id: number }) => item.id))}>Delete</Button>
+        </Flex>
 
-              <Box h='90%'>
-                <DataTable
-                  striped
-                  withTableBorder
-                  borderRadius='md'
-                  selectedRecords={selectedRecords}
-                  onSelectedRecordsChange={setSelectedRecords}
-                  columns={[
-                    { accessor: 'Str', title: 'Option' },
-                    {
-                      accessor: '',
-                      render: () => (
-                        <ActionIcon
-                          size='sm'
-                          variant='light'
-                          color='var(--mantine-color-green-8)'
-                        >
-                          <IconEdit />
-                        </ActionIcon>
-                      )
+        <Paper p='md' withBorder radius='md' w='30%'>
+          <Title order={2} mb='sm'>Current Entries</Title>
 
-                    }
-                  ]}
-                  records={paramData ?? []}
-                >
-                </DataTable>
-              </Box>
+          <Box h='90%'>
+            <DataTable
+              striped
+              withTableBorder
+              borderRadius='md'
+              selectedRecords={selectedRecords}
+              onSelectedRecordsChange={setSelectedRecords}
+              columns={[
+                { accessor: 'Str', title: 'Option' },
+                {
+                  accessor: '',
+                  render: () => (
+                    <ActionIcon
+                      size='sm'
+                      variant='light'
+                      color='var(--mantine-color-green-8)'
+                    >
+                      <IconEdit />
+                    </ActionIcon>
+                  )
 
-            </Paper>
+                }
+              ]}
+              records={paramData ?? []}
+            >
+            </DataTable>
+          </Box>
 
-          </Tabs>
-        </Box>
+        </Paper>
+
       </Flex>
 
-    </>
+    </Flex >
   )
 
 }
