@@ -43,8 +43,32 @@ const inputSectionTheme = createTheme({
 })
 
 const schema = z.object({
+  assetNum: z.string().min(1),
+  assetType: z.string().min(1),
+  assetModel: z.string().min(1),
+  specs: z.string().min(1),
+  serialNum: z.string().min(1),
+  pchOrder: z.string().min(1),
+  salesInv: z.string().min(1),
+  delivRct: z.string().min(1),
+  supplier: z.string().min(1),
+  acqDate: z.date(),
   warrantyDur: z.number(),
-  unitCost: z.number()
+  warrEndDate: z.date(),
+  currency: z.string().min(1),
+  unitCost: z.number().min(1),
+  pezaZone: z.string().min(1),
+  mktCircle: z.string().min(1),
+  class: z.string().min(1),
+  status: z.string().min(1),
+  statEffDate: z.date(),
+  recInvDate: z.date(),
+  location: z.string().min(1),
+  locEffDate: z.date(),
+  employeeID: z.number(),
+  locRemarks: z.string(),
+  remarks: z.string(),
+  invRemarks: z.string()
 });
 
 export default function AssetForm({ submitCallback, values, formTitle, buttonText }: AssetFormProps) {
@@ -108,35 +132,35 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>ASSET INFORMATION</Title>
 
-              <TextInput size='sm' label='Asset No.' mb='sm' required
+              <TextInput size='sm' label='Asset No.' mb='sm'
                 key={form.key('assetNum')}
                 {...form.getInputProps('assetNum')}>
               </TextInput>
-              <Select size='sm' label='Asset Type' mb='sm' data={['Keyboard', 'Mouse', 'Monitor']} required
+              <Select size='sm' label='Asset Type' mb='sm' data={['Keyboard', 'Mouse', 'Monitor']}
                 key={form.key('assetType')}
                 {...form.getInputProps('assetType')}>
               </Select>
-              <TextInput size='sm' label='Model' mb='sm' required
+              <TextInput size='sm' label='Model' mb='sm'
                 key={form.key('assetModel')}
                 {...form.getInputProps('assetModel')}>
               </TextInput>
-              <TextInput size='sm' label='Specification' mb='sm' required
+              <TextInput size='sm' label='Specification' mb='sm'
                 key={form.key('specs')}
                 {...form.getInputProps('specs')}>
               </TextInput>
-              <TextInput size='sm' label='Serial Number' mb='sm' required
+              <TextInput size='sm' label='Serial Number' mb='sm'
                 key={form.key('serialNum')}
                 {...form.getInputProps('serialNum')}>
               </TextInput>
-              <TextInput size='sm' label='Purchase Order' mb='sm' required
+              <TextInput size='sm' label='Purchase Order' mb='sm'
                 key={form.key('pchOrder')}
                 {...form.getInputProps('pchOrder')}>
               </TextInput>
-              <TextInput size='sm' label='Sales Invoice' mb='sm' required
+              <TextInput size='sm' label='Sales Invoice' mb='sm'
                 key={form.key('salesInv')}
                 {...form.getInputProps('salesInv')}>
               </TextInput>
-              <TextInput size='sm' label='Delivery Receipt' mb='sm' required
+              <TextInput size='sm' label='Delivery Receipt' mb='sm'
                 key={form.key('delivRct')}
                 {...form.getInputProps('delivRct')}>
               </TextInput>
@@ -147,27 +171,27 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
 
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>SUPPLIER INFORMATION</Title>
-              <TextInput size='sm' label='Supplier' mb='sm' required
+              <TextInput size='sm' label='Supplier' mb='sm'
                 key={form.key('supplier')}
                 {...form.getInputProps('supplier')}>
               </TextInput>
-              <DateInput size='sm' label='Acquistion Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
+              <DateInput size='sm' label='Acquistion Date' mb='sm' leftSection={<IconCalendar size='20px' />}
                 key={form.key('acqDate')}
                 {...form.getInputProps('acqDate')}>
               </DateInput>
-              <NumberInput size='sm' label='Warranty' mb='sm' placeholder='in years' required
+              <NumberInput size='sm' label='Warranty' mb='sm' placeholder='in years'
                 key={form.key('warrantyDur')}
                 {...form.getInputProps('warrantyDur')}>
               </NumberInput>
-              <DateInput size='sm' label='Warranty End Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
+              <DateInput size='sm' label='Warranty End Date' mb='sm' leftSection={<IconCalendar size='20px' />}
                 key={form.key('warrEndDate')}
                 {...form.getInputProps('warrEndDate')}>
               </DateInput>
-              <Select size='sm' label='Currency' mb='sm' data={['USD', 'PHP', 'EUR']} required
+              <Select size='sm' label='Currency' mb='sm' data={['USD', 'PHP', 'EUR']}
                 key={form.key('currency')}
                 {...form.getInputProps('currency')}>
               </Select>
-              <NumberInput size='sm' label='Unit Cost' placeholder='(ex. VAT)' mb='sm' required
+              <NumberInput size='sm' label='Unit Cost' placeholder='(ex. VAT)' mb='sm'
                 key={form.key('unitCost')}
                 {...form.getInputProps('unitCost')}>
               </NumberInput>
@@ -175,7 +199,7 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
                 key={form.key('pezaZone')}
                 {...form.getInputProps('pezaZone')}>
               </TextInput>
-              <Select size='sm' label='Market Circle' mb='sm' data={['Tech', 'Communication', 'Miscellaneous']} required
+              <Select size='sm' label='Market Circle' mb='sm' data={['Tech', 'Communication', 'Miscellaneous']}
                 key={form.key('mktCircle')}
                 {...form.getInputProps('mktCircle')}>
               </Select>
@@ -185,27 +209,27 @@ export default function AssetForm({ submitCallback, values, formTitle, buttonTex
 
             <Flex direction='column' mr='md' w='23%'>
               <Title order={6} className={classes.sectionHeader} m={0}>MISCELLANEOUS</Title>
-              <Select size='sm' label='Classification' mb='sm' data={['Input', 'Output', 'Storage', 'Networking']} required
+              <Select size='sm' label='Classification' mb='sm' data={['Input', 'Output', 'Storage', 'Networking']}
                 key={form.key('class')}
                 {...form.getInputProps('class')}>
               </Select>
-              <Select size='sm' label='Status' mb='sm' data={['Active', 'Inactive']} required
+              <Select size='sm' label='Status' mb='sm' data={['Active', 'Inactive']}
                 key={form.key('status')}
                 {...form.getInputProps('status')}>
               </Select>
-              <DateInput size='sm' label='Status Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
+              <DateInput size='sm' label='Status Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />}
                 key={form.key('statEffDate')}
                 {...form.getInputProps('statEffDate')}>
               </DateInput>
-              <DateInput size='sm' label='Recent Inventory Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
+              <DateInput size='sm' label='Recent Inventory Date' mb='sm' leftSection={<IconCalendar size='20px' />}
                 key={form.key('recInvDate')}
                 {...form.getInputProps('recInvDate')}>
               </DateInput>
-              <Select size='sm' label='Location' mb='sm' data={['Shelf', 'Table', 'Cabinet']} required
+              <Select size='sm' label='Location' mb='sm' data={['Shelf', 'Table', 'Cabinet']}
                 key={form.key('location')}
                 {...form.getInputProps('location')}>
               </Select>
-              <DateInput size='sm' label='Location Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />} required
+              <DateInput size='sm' label='Location Effectivity Date' mb='sm' leftSection={<IconCalendar size='20px' />}
                 key={form.key('locEffDate')}
                 {...form.getInputProps('locEffDate')}>
               </DateInput>
